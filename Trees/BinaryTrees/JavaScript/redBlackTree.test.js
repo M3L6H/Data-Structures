@@ -17,13 +17,13 @@ test("root is colored black", () => {
 test("follows the principles of bst insertion", () => {
   const rbt = new RedBlackTree();
   
-  expect(rbt.insert(4)).toEqual(true);
-  expect(rbt.insert(2)).toEqual(true);
-  expect(rbt.insert(6)).toEqual(true);
-  expect(rbt.insert(1)).toEqual(true);
-  expect(rbt.insert(3)).toEqual(true);
-  expect(rbt.insert(5)).toEqual(true);
-  expect(rbt.insert(7)).toEqual(true);
+  expect(rbt.insert(4)).toBeTruthy();
+  expect(rbt.insert(2)).toBeTruthy();
+  expect(rbt.insert(6)).toBeTruthy();
+  expect(rbt.insert(1)).toBeTruthy();
+  expect(rbt.insert(3)).toBeTruthy();
+  expect(rbt.insert(5)).toBeTruthy();
+  expect(rbt.insert(7)).toBeTruthy();
 
   expect(rbt.root).toBeTruthy();
   expect(rbt.root.value).toEqual(4);
@@ -45,4 +45,17 @@ test("follows the principles of bst insertion", () => {
 
   expect(rbt.root.right.right).toBeTruthy();
   expect(rbt.root.right.right.value).toEqual(7);
+});
+
+test("rejects duplicates", () => {
+  const rbt = new RedBlackTree();
+
+  expect(rbt.insert(10)).toBeTruthy();
+  expect(rbt.insert(15)).toBeTruthy();
+  expect(rbt.insert(13)).toBeTruthy();
+  expect(rbt.insert(5)).toBeTruthy();
+  expect(rbt.insert(10)).toBeFalsy();
+  expect(rbt.insert(15)).toBeFalsy();
+  expect(rbt.insert(13)).toBeFalsy();
+  expect(rbt.insert(5)).toBeFalsy();
 });
