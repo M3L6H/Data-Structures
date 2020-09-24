@@ -7,7 +7,7 @@
 // comparator uses Math.sign, which works for numbers, but does not work for
 // strings or other objects.
 
-export default class RedBlackTree {
+class RedBlackTree {
   constructor(comp=null) {
     this.comp = comp || ((a, b) => Math.sign(a - b));
     this.root = null;
@@ -58,3 +58,5 @@ export default class RedBlackTree {
     return this._insertChild(value);
   }
 }
+
+module.exports = RedBlackTree;
