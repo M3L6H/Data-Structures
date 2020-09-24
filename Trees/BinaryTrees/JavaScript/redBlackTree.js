@@ -1,5 +1,5 @@
 // In this implementation of a red-black tree, color is represented by the
-// numbers 0 and 1. 0 represents black while 1 represents red.
+// boolean flag red.
 
 // It also accepts an optional comparator function. The comparator function
 // should be a binary function that returns -1, 0, and 1, representing the
@@ -20,7 +20,7 @@ class RedBlackTree {
       value,
       left: null,
       right: null,
-      color: 1
+      red: true
     };
   }
 
@@ -51,7 +51,7 @@ class RedBlackTree {
   insert(value) {
     if (this.root === null) {
       this.root = this._createNode(value);
-      this.root.color = 0;
+      this.root.red = false;
       return true;
     }
     

@@ -11,5 +11,5 @@ test("accepts optional comparison function", () => {
 test("root is colored black", () => {
   const rbt = new RedBlackTree();
   rbt.insert(1);
-  expect(rbt.root.color).toEqual(0);
+  expect(rbt.root.red).toEqual(false);
 });
