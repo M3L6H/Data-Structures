@@ -51,6 +51,7 @@ export default class RedBlackTree {
   insert(value) {
     if (this.root === null) {
       this.root = this._createNode(value);
+      this.root.color = 0;
       return true;
     }
     
