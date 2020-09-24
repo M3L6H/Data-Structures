@@ -1,9 +1,15 @@
 // In this implementation of a red-black tree, color is represented by the
 // numbers 0 and 1. 0 represents black while 1 represents red.
 
+// It also accepts an optional comparator function. The comparator function
+// should be a binary function that returns -1, 0, and 1, representing the
+// concept of "less than", "equal", and "greater than" respectively. The default
+// comparator uses Math.sign, which works for numbers, but does not work for
+// strings or other objects.
+
 export default class RedBlackTree {
   constructor(comp=null) {
-    this.comp = comp || ((a, b) => a < b);
+    this.comp = comp || ((a, b) => Math.sign(a - b));
     this.root = null;
   }
 
@@ -18,11 +24,36 @@ export default class RedBlackTree {
     };
   }
 
-  insert(value, root=this.root) {
+  _insertChild(value, parent=this.root) {
+    switch (this.comp(value, parent.value)) {
+      case -1:
+        if (parent.left) {
+          return this._insertChild(value, parent.left);
+        } else {
+          this.parent.left = this._createNode(value);
+          break;
+        }
+      case 0:
+        return false;
+      case 1:
+        if (parent.right) {
+          return this._insertChild(value, parent.right);
+        } else {
+          this.parent.right = this._createNode(value);
+          break;
+        }
+    }
+
+    return true;
+  }
+
+  // Returns true on successful insertion and false otherwise
+  insert(value) {
     if (this.root === null) {
       this.root = this._createNode(value);
-    } else {
-      
+      return true;
     }
+    
+    return this._insertChild(value);
   }
 }
