@@ -30,7 +30,7 @@ class RedBlackTree {
         if (parent.left) {
           return this._insertChild(value, parent.left);
         } else {
-          this.parent.left = this._createNode(value);
+          parent.left = this._createNode(value);
           break;
         }
       case 0:
@@ -39,7 +39,7 @@ class RedBlackTree {
         if (parent.right) {
           return this._insertChild(value, parent.right);
         } else {
-          this.parent.right = this._createNode(value);
+          parent.right = this._createNode(value);
           break;
         }
     }
