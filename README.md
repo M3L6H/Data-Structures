@@ -52,8 +52,10 @@ Similarly, after a color change, we expect the following configuration of nodes:
 B   B
 ```
 
-Determining the conditions for performing these operations is easier with a bit
-of visualization. Consider the following situation:
+The conditions for performing these operations are simple. After inserting a
+node, if it has a red uncle, we perform a color flip on its grandparent. If the
+inserted node has a black uncle, we instead perform a rotation. This becomes
+more apparent with a bit of visualization. Consider the following situation:
 
 ```
   B
@@ -84,8 +86,9 @@ have the
 R   R
 ```
 
-configuration that is the result of a rotation. So we apply a color change and
-get the following result:
+configuration that is the result of a rotation. Also, it is readily apparent
+that our new node's uncle is red. So we apply a color change and get the
+following result:
 
 ```
   R
@@ -104,4 +107,49 @@ back to black.
 B   B
      \
       R
+```
+
+Now say we insert a node that is less than our most recently inserted node, but
+greater than all the rest. Said node would end up with the following structure:
+
+```
+  B
+ / \
+B   B
+     \
+      R
+     /
+    R
+```
+
+Again, clearly an invalid tree. It is harder to see here, but the newly inserted
+node's uncle is a null (leaf) node, which by definition is black, so we must
+perform a rotation. In this case, we perform a RL rotation, giving us our final
+structure:
+
+```
+  B
+ / \
+B   R (newly inserted node)
+   / \
+  B   R
+```
+
+Now, we are not quite done, since we need to fix the color of our nodes. Recall
+the end result of a rotation should be:
+
+```
+  B
+ / \
+R   R
+```
+
+meaning we need to change the color of our nodes to get the correct result:
+
+```
+  B
+ / \
+B   B (newly inserted node)
+   / \
+  R   R
 ```
