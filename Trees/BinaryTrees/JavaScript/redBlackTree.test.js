@@ -241,3 +241,37 @@ test("correctly rotates", () => {
   expect(rbt.root.right.right.right.value).toEqual(10);
   expect(rbt.root.right.right.right.red).toEqual(true);
 });
+
+test("correctly maintains red black tree invariants across insertions", () => {
+  const rbt = new RedBlackTree();
+
+  rbt.insert(10);
+  expect(rbt.inOrderTraversal()).toEqual("10(B)[* *]");
+
+  rbt.insert(3);
+  expect(rbt.inOrderTraversal()).toEqual("10(B)[3(R)[* *] *]");
+
+  rbt.insert(8);
+  expect(rbt.inOrderTraversal()).toEqual("8(B)[3(R)[* *] 10(R)[* *]]");
+
+  rbt.insert(9);
+  expect(rbt.inOrderTraversal()).toEqual("8(B)[3(B)[* *] 10(B)[9(R)[* *] *]]");
+
+  rbt.insert(7);
+  expect(rbt.inOrderTraversal()).toEqual("8(B)[3(B)[* 7(R)[* *]] 10(B)[9(R)[* *] *]]");
+
+  rbt.insert(5);
+  expect(rbt.inOrderTraversal()).toEqual("8(B)[5(B)[3(R)[* *] 7(R)[* *]] 10(B)[9(R)[* *] *]]");
+
+  rbt.insert(90);
+  expect(rbt.inOrderTraversal()).toEqual("8(B)[5(B)[3(R)[* *] 7(R)[* *]] 10(B)[9(R)[* *] 90(R)[* *]]]");
+
+  rbt.insert(89);
+  expect(rbt.inOrderTraversal()).toEqual("8(B)[5(B)[3(R)[* *] 7(R)[* *]] 10(R)[9(B)[* *] 90(B)[89(R)[* *] *]]]");
+
+  rbt.insert(88);
+  expect(rbt.inOrderTraversal()).toEqual("8(B)[5(B)[3(R)[* *] 7(R)[* *]] 10(R)[9(B)[* *] 89(B)[88(R)[* *] 90(R)[* *]]]]");
+
+  rbt.insert(87);
+  expect(rbt.inOrderTraversal()).toEqual("10(B)[8(R)[5(B)[3(R)[* *] 7(R)[* *]] 9(B)[* *]] 89(R)[88(B)[87(R)[* *] *] 90(B)[* *]]]");
+});
