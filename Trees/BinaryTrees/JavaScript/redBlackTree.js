@@ -16,13 +16,12 @@ class RedBlackTree {
 
   // Although I could have defined a class for the tree nodes, I decided they
   // were primitive enough that a POJO served the purpose just as well
-  _createNode(value, isLeftChild, parent=null) {
+  _createNode(value, parent=null) {
     ++this.size;
 
     return {
       parent,
       value,
-      isLeftChild,
       left: null,
       right: null,
       red: true
@@ -35,7 +34,7 @@ class RedBlackTree {
     child.left = parent;
 
     if (gp) {
-      if (parent.isLeftChild) {
+      if (gp.left === parent) {
         gp.left = child;
       } else {
         gp.right = child;
@@ -54,7 +53,7 @@ class RedBlackTree {
     child.right = parent;
 
     if (gp) {
-      if (parent.isLeftChild) {
+      if (gp.left === parent) {
         gp.left = child;
       } else {
         gp.right = child;
@@ -73,7 +72,7 @@ class RedBlackTree {
         if (parent.left) {
           return this._insertChild(value, parent.left);
         } else {
-          parent.left = this._createNode(value, true, parent);;
+          parent.left = this._createNode(value, parent);;
           return parent.left;
         }
       case 0:
@@ -82,7 +81,7 @@ class RedBlackTree {
         if (parent.right) {
           return this._insertChild(value, parent.right);
         } else {
-          parent.right = this._createNode(value, false, parent);
+          parent.right = this._createNode(value, parent);
           return parent.right;
         }
     }
@@ -96,8 +95,8 @@ class RedBlackTree {
       // There is a violation
       if (parent.red && child.red) {
         const gp = parent.parent;
-        const uncle = parent.isLeftChild ? gp.right : gp.left;
-  
+        const uncle = gp.left === parent ? gp.right : gp.left;
+
         // Red uncle means a color change
         if (uncle && uncle.red) {
           gp.red = true;
@@ -110,15 +109,15 @@ class RedBlackTree {
           let newRoot = parent;
           
           // Perform a left rotation
-          if (!parent.isLeftChild && !child.isLeftChild) {
+          if (gp.right === parent && parent.right === child) {
             this._rotateLeft(gp, parent);
   
           // Perform a right rotation
-          } else if (parent.isLeftChild && child.isLeftChild) {
+          } else if (gp.left === parent && parent.left === child) {
             this._rotateRight(gp, parent);
   
           // Need to perform a RL rotation
-          } else if (!parent.isLeftChild && child.isLeftChild) {
+          } else if (gp.right === parent && parent.left === child) {
             this._rotateRight(parent, child);
   
             // After the right rotation, child is now parent's parent, so we
