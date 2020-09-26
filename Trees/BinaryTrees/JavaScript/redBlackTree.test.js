@@ -45,6 +45,8 @@ test("follows the principles of bst insertion", () => {
 
   expect(rbt.root.right.right).toBeTruthy();
   expect(rbt.root.right.right.value).toEqual(7);
+
+  expect(rbt.size).toEqual(7);
 });
 
 test("rejects duplicates", () => {
@@ -58,6 +60,8 @@ test("rejects duplicates", () => {
   expect(rbt.insert(15)).toBeFalsy();
   expect(rbt.insert(13)).toBeFalsy();
   expect(rbt.insert(5)).toBeFalsy();
+
+  expect(rbt.size).toEqual(4);
 });
 
 test("correctly performs color flips", () => {

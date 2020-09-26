@@ -11,11 +11,14 @@ class RedBlackTree {
   constructor(comp=null) {
     this.comp = comp || ((a, b) => Math.sign(a - b));
     this.root = null;
+    this.size = 0;
   }
 
   // Although I could have defined a class for the tree nodes, I decided they
   // were primitive enough that a POJO served the purpose just as well
   _createNode(value, parent=null) {
+    ++this.size;
+    
     return {
       parent,
       value,
