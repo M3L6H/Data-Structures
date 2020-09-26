@@ -141,12 +141,12 @@ class RedBlackTree {
           newRoot.left.red = true;
           newRoot.right.red = true;
 
-          child = newRoot;
-          parent = child.parent;
-          continue;
+          // Update parent so we advance up the tree correctly
+          parent = newRoot;
         }
       }
 
+      // Advance up the tree
       child = parent;
       parent = child.parent;
     }
