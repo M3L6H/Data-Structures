@@ -61,7 +61,7 @@ test("rejects duplicates", () => {
 });
 
 test("correctly performs color flips", () => {
-  const rbt = new RedBlackTree();
+  let rbt = new RedBlackTree();
 
   rbt.insert(20);
   rbt.insert(10);
@@ -84,4 +84,23 @@ test("correctly performs color flips", () => {
 
   expect(rbt.root.right.right.value).toEqual(30);
   expect(rbt.root.right.right.red).toEqual(true);
+
+  rbt = new RedBlackTree();
+
+  rbt.insert(100);
+  rbt.insert(150);
+  rbt.insert(10);
+  rbt.insert(30);
+
+  expect(rbt.root.value).toEqual(100);
+  expect(rbt.root.red).toEqual(false);
+
+  expect(rbt.root.left.value).toEqual(10);
+  expect(rbt.root.left.red).toEqual(false);
+
+  expect(rbt.root.right.value).toEqual(150);
+  expect(rbt.root.right.red).toEqual(false);
+
+  expect(rbt.root.left.right.value).toEqual(30);
+  expect(rbt.root.left.right.red).toEqual(true);
 });
