@@ -15,8 +15,9 @@ class RedBlackTree {
 
   // Although I could have defined a class for the tree nodes, I decided they
   // were primitive enough that a POJO served the purpose just as well
-  _createNode(value) {
+  _createNode(value, parent=null) {
     return {
+      parent,
       value,
       left: null,
       right: null,
@@ -24,29 +25,50 @@ class RedBlackTree {
     };
   }
 
-  _insertChild(value, parent=this.root, grandparent=null) {
+  _insertChild(value, parent=this.root) {
+    let child;
+    
+    // Perform insertion operation here
     switch (this.comp(value, parent.value)) {
       case -1:
         if (parent.left) {
-          return this._insertChild(value, parent.left, parent);
+          child = this._insertChild(value, parent.left);
         } else {
-          parent.left = this._createNode(value);
-          break;
+          child = this._createNode(value, parent);
+          parent.left = child;
         }
+        break;
       case 0:
         return false;
       case 1:
         if (parent.right) {
-          return this._insertChild(value, parent.right, parent);
+          child = this._insertChild(value, parent.right);
         } else {
-          parent.right = this._createNode(value);
-          break;
+          child = this._createNode(value, parent);
+          parent.right = child;
         }
+        break;
     }
 
-    // Ensure that the root node's color is black
-    this.root.red = false;
-    return true;
+    // We have already failed the insertion, so keep returning
+    if (!child) return false;
+
+    // There is a violation
+    if (parent.red && child.red) {
+      const gp = parent.parent;
+      const uncle = gp.left === parent ? gp.right : gp.left;
+
+      // Red uncle means a color change
+      if (uncle && uncle.red) {
+        gp.red = true;
+        uncle.red = false;
+        parent.red = false;
+      } else {
+        
+      }
+    }
+
+    return parent;
   }
 
   // Returns true on successful insertion and false otherwise
@@ -57,7 +79,12 @@ class RedBlackTree {
       return true;
     }
     
-    return this._insertChild(value);
+    const res = this._insertChild(value);
+
+    // Ensure that the root node's color is black
+    this.root.red = false;
+
+    return !(!res);
   }
 }
 
