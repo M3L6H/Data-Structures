@@ -16,12 +16,13 @@ class RedBlackTree {
 
   // Although I could have defined a class for the tree nodes, I decided they
   // were primitive enough that a POJO served the purpose just as well
-  _createNode(value, parent=null) {
+  _createNode(value, isLeftChild, parent=null) {
     ++this.size;
-    
+
     return {
       parent,
       value,
+      isLeftChild,
       left: null,
       right: null,
       red: true
@@ -37,7 +38,7 @@ class RedBlackTree {
         if (parent.left) {
           child = this._insertChild(value, parent.left);
         } else {
-          child = this._createNode(value, parent);
+          child = this._createNode(value, true, parent);
           parent.left = child;
         }
         break;
@@ -47,7 +48,7 @@ class RedBlackTree {
         if (parent.right) {
           child = this._insertChild(value, parent.right);
         } else {
-          child = this._createNode(value, parent);
+          child = this._createNode(value, false, parent);
           parent.right = child;
         }
         break;
@@ -59,7 +60,7 @@ class RedBlackTree {
     // There is a violation
     if (parent.red && child.red) {
       const gp = parent.parent;
-      const uncle = gp.left === parent ? gp.right : gp.left;
+      const uncle = parent.isLeftChild ? gp.right : gp.left;
 
       // Red uncle means a color change
       if (uncle && uncle.red) {
