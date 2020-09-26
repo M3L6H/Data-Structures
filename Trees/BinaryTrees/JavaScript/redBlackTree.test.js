@@ -108,3 +108,136 @@ test("correctly performs color flips", () => {
   expect(rbt.root.left.right.value).toEqual(30);
   expect(rbt.root.left.right.red).toEqual(true);
 });
+
+test("correctly rotates", () => {
+  const rbt = new RedBlackTree();
+
+  rbt.insert(3);
+
+  expect(rbt.root).toBeTruthy();
+  expect(rbt.root.value).toEqual(3);
+  expect(rbt.root.red).toEqual(false);
+
+  rbt.insert(1);
+
+  expect(rbt.root.value).toEqual(3);
+  expect(rbt.root.red).toEqual(false);
+
+  expect(rbt.root.left).toBeTruthy();
+  expect(rbt.root.left.value).toEqual(1);
+  expect(rbt.root.left.red).toEqual(true);
+
+  rbt.insert(5);
+
+  expect(rbt.root.value).toEqual(3);
+  expect(rbt.root.red).toEqual(false);
+
+  expect(rbt.root.left.value).toEqual(1);
+  expect(rbt.root.left.red).toEqual(true);
+
+  expect(rbt.root.right).toBeTruthy();
+  expect(rbt.root.right.value).toEqual(5);
+  expect(rbt.root.right.red).toEqual(true);
+
+  rbt.insert(7);
+
+  expect(rbt.root.value).toEqual(3);
+  expect(rbt.root.red).toEqual(false);
+
+  expect(rbt.root.left.value).toEqual(1);
+  expect(rbt.root.left.red).toEqual(false);
+
+  expect(rbt.root.right.value).toEqual(5);
+  expect(rbt.root.right.red).toEqual(false);
+
+  expect(rbt.root.right.right).toBeTruthy();
+  expect(rbt.root.right.right.value).toEqual(7);
+  expect(rbt.root.right.right.red).toEqual(true);
+
+  // RL Rotation happens after this insertion
+  rbt.insert(6);
+
+  expect(rbt.root.value).toEqual(3);
+  expect(rbt.root.red).toEqual(false);
+
+  expect(rbt.root.left.value).toEqual(1);
+  expect(rbt.root.left.red).toEqual(false);
+
+  expect(rbt.root.right.value).toEqual(6);
+  expect(rbt.root.right.red).toEqual(false);
+
+  expect(rbt.root.right.left.value).toEqual(5);
+  expect(rbt.root.right.left.red).toEqual(true);
+
+  expect(rbt.root.right.right.value).toEqual(7);
+  expect(rbt.root.right.right.red).toEqual(true);
+
+  rbt.insert(8);
+
+  expect(rbt.root.value).toEqual(3);
+  expect(rbt.root.red).toEqual(false);
+
+  expect(rbt.root.left.value).toEqual(1);
+  expect(rbt.root.left.red).toEqual(false);
+
+  expect(rbt.root.right.value).toEqual(6);
+  expect(rbt.root.right.red).toEqual(true);
+
+  expect(rbt.root.right.left.value).toEqual(5);
+  expect(rbt.root.right.left.red).toEqual(false);
+
+  expect(rbt.root.right.right.value).toEqual(7);
+  expect(rbt.root.right.right.red).toEqual(false);
+
+  expect(rbt.root.right.right.right.value).toEqual(8);
+  expect(rbt.root.right.right.right.red).toEqual(true);
+
+  rbt.insert(9);
+
+  expect(rbt.root.value).toEqual(3);
+  expect(rbt.root.red).toEqual(false);
+
+  expect(rbt.root.left.value).toEqual(1);
+  expect(rbt.root.left.red).toEqual(false);
+
+  expect(rbt.root.right.value).toEqual(6);
+  expect(rbt.root.right.red).toEqual(true);
+
+  expect(rbt.root.right.left.value).toEqual(5);
+  expect(rbt.root.right.left.red).toEqual(false);
+
+  expect(rbt.root.right.right.value).toEqual(8);
+  expect(rbt.root.right.right.red).toEqual(false);
+
+  expect(rbt.root.right.right.left.value).toEqual(7);
+  expect(rbt.root.right.right.left.red).toEqual(true);
+
+  expect(rbt.root.right.right.right.value).toEqual(9);
+  expect(rbt.root.right.right.right.red).toEqual(true);
+
+  rbt.insert(10);
+
+  expect(rbt.root.value).toEqual(6);
+  expect(rbt.root.red).toEqual(false);
+
+  expect(rbt.root.left.value).toEqual(3);
+  expect(rbt.root.left.red).toEqual(true);
+
+  expect(rbt.root.left.left.value).toEqual(1);
+  expect(rbt.root.left.left.red).toEqual(false);
+
+  expect(rbt.root.left.right.value).toEqual(5);
+  expect(rbt.root.left.right.red).toEqual(false);
+
+  expect(rbt.root.right.value).toEqual(8);
+  expect(rbt.root.right.red).toEqual(true);
+
+  expect(rbt.root.right.left.value).toEqual(7);
+  expect(rbt.root.right.left.red).toEqual(false);
+
+  expect(rbt.root.right.right.value).toEqual(9);
+  expect(rbt.root.right.right.red).toEqual(false);
+
+  expect(rbt.root.right.right.right.value).toEqual(10);
+  expect(rbt.root.right.right.right.red).toEqual(true);
+});
