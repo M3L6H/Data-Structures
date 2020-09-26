@@ -24,11 +24,11 @@ class RedBlackTree {
     };
   }
 
-  _insertChild(value, parent=this.root) {
+  _insertChild(value, parent=this.root, grandparent=null) {
     switch (this.comp(value, parent.value)) {
       case -1:
         if (parent.left) {
-          return this._insertChild(value, parent.left);
+          return this._insertChild(value, parent.left, parent);
         } else {
           parent.left = this._createNode(value);
           break;
@@ -37,13 +37,15 @@ class RedBlackTree {
         return false;
       case 1:
         if (parent.right) {
-          return this._insertChild(value, parent.right);
+          return this._insertChild(value, parent.right, parent);
         } else {
           parent.right = this._createNode(value);
           break;
         }
     }
 
+    // Ensure that the root node's color is black
+    this.root.red = false;
     return true;
   }
 
