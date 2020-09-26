@@ -25,3 +25,25 @@ They hold to the following 6 invariants:
 4. The children of red nodes must always be black
 5. Between any leaf node at the root, there are the same number of black nodes
 6. Null nodes (i.e. leaf nodes) are considered black
+
+The way red black trees preserve these invariants is by applying two kinds of
+transformations based on the situation:
+
+1. Rotation (As in an AVL tree)
+2. Color flipping
+
+After a rotation, the following configuration of nodes should be the result:
+
+```
+  B
+ / \
+R   R
+```
+
+Similarly, after a color change, we expect the following configuration of nodes:
+
+```
+  R
+ / \
+B   B
+```
