@@ -29,6 +29,38 @@ class RedBlackTree {
     };
   }
 
+  _rotateLeft(parent, child) {
+    parent.right = child.left;
+    child.left = parent;
+
+    if (parent.parent) {
+      const gp = parent.parent;
+      if (parent.isLeftChild) {
+        gp.left = child;
+      } else {
+        gp.right = child;
+      }
+    } else {
+      this.root = child;
+    }
+  }
+
+  _rotateRight(parent, child) {
+    parent.left = child.right;
+    child.right = parent;
+
+    if (parent.parent) {
+      const gp = parent.parent;
+      if (parent.isLeftChild) {
+        gp.left = child;
+      } else {
+        gp.right = child;
+      }
+    } else {
+      this.root = child;
+    }
+  }
+
   _insertChild(value, parent=this.root) {
     let child;
     
@@ -67,8 +99,43 @@ class RedBlackTree {
         gp.red = true;
         uncle.red = false;
         parent.red = false;
+
+      // Otherwise we perform a rotation
+      // Recall that null nodes are considered black
       } else {
+        let newRoot = parent;
         
+        // Perform a left rotation
+        if (!parent.isLeftChild && !child.isLeftChild) {
+          this._rotateLeft(gp, parent);
+
+        // Perform a right rotation
+        } else if (parent.isLeftChild && child.isLeftChild) {
+          this._rotateRight(gp, parent);
+
+        // Need to perform a RL rotation
+        } else if (!parent.isLeftChild && child.isLeftChild) {
+          this._rotateRight(parent, child);
+
+          // After the right rotation, child is now parent's parent, so we
+          // perform the subsequent left rotation with the gp and child pointers
+          this._rotateLeft(gp, child);
+
+          // The result of our rotations is the new root of the subtree is our
+          // original child node
+          newRoot = child;
+
+        // Need to perform an LR rotation
+        } else {
+          this._rotateLeft(parent, child);
+          this._rotateRight(gp, child);
+          newRoot = child;
+        }
+
+        // Re-color
+        newRoot.red = false;
+        newRoot.left.red = true;
+        newRoot.right.red = true;
       }
     }
 
