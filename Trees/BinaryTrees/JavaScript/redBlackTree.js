@@ -30,11 +30,11 @@ class RedBlackTree {
   }
 
   _rotateLeft(parent, child) {
+    const gp = parent.parent;
     parent.right = child.left;
     child.left = parent;
 
-    if (parent.parent) {
-      const gp = parent.parent;
+    if (gp) {
       if (parent.isLeftChild) {
         gp.left = child;
       } else {
@@ -44,16 +44,16 @@ class RedBlackTree {
       this.root = child;
     }
 
-    child.parent = parent.parent;
+    child.parent = gp;
     parent.parent = child;
   }
 
   _rotateRight(parent, child) {
+    const gp = parent.parent;
     parent.left = child.right;
     child.right = parent;
 
-    if (parent.parent) {
-      const gp = parent.parent;
+    if (gp) {
       if (parent.isLeftChild) {
         gp.left = child;
       } else {
@@ -63,7 +63,7 @@ class RedBlackTree {
       this.root = child;
     }
 
-    child.parent = parent.parent;
+    child.parent = gp;
     parent.parent = child;
   }
 
@@ -142,6 +142,8 @@ class RedBlackTree {
         newRoot.red = false;
         newRoot.left.red = true;
         newRoot.right.red = true;
+
+        return newRoot;
       }
     }
 
@@ -162,6 +164,16 @@ class RedBlackTree {
     this.root.red = false;
 
     return !(!res);
+  }
+
+  preOrderTraversal(parent=this.root) {
+    if (!parent) return "";
+    return this.preOrderTraversal(parent.left) + `${ parent.value }(${ parent.red ? "R" : "B" }) ` + this.preOrderTraversal(parent.right);
+  }
+
+  inOrderTraversal(parent=this.root) {
+    if (!parent) return "*";
+    return `${ parent.value }(${ parent.red ? "R" : "B" })[` + this.inOrderTraversal(parent.left) + " " + this.inOrderTraversal(parent.right) + "]";
   }
 }
 
