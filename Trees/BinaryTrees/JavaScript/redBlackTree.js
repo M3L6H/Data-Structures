@@ -68,86 +68,88 @@ class RedBlackTree {
   }
 
   _insertChild(value, parent=this.root) {
-    let child;
-    
-    // Perform insertion operation here
     switch (this.comp(value, parent.value)) {
       case -1:
         if (parent.left) {
-          child = this._insertChild(value, parent.left);
+          return this._insertChild(value, parent.left);
         } else {
-          child = this._createNode(value, true, parent);
-          parent.left = child;
+          parent.left = this._createNode(value, true, parent);;
+          return parent.left;
         }
-        break;
       case 0:
         return false;
       case 1:
         if (parent.right) {
-          child = this._insertChild(value, parent.right);
+          return this._insertChild(value, parent.right);
         } else {
-          child = this._createNode(value, false, parent);
-          parent.right = child;
+          parent.right = this._createNode(value, false, parent);
+          return parent.right;
         }
-        break;
     }
+  }
 
-    // We have already failed the insertion, so keep returning
-    if (!child) return false;
+  _correctViolations(child) {
+    let parent = child.parent;
 
-    // There is a violation
-    if (parent.red && child.red) {
-      const gp = parent.parent;
-      const uncle = parent.isLeftChild ? gp.right : gp.left;
-
-      // Red uncle means a color change
-      if (uncle && uncle.red) {
-        gp.red = true;
-        uncle.red = false;
-        parent.red = false;
-
-      // Otherwise we perform a rotation
-      // Recall that null nodes are considered black
-      } else {
-        let newRoot = parent;
-        
-        // Perform a left rotation
-        if (!parent.isLeftChild && !child.isLeftChild) {
-          this._rotateLeft(gp, parent);
-
-        // Perform a right rotation
-        } else if (parent.isLeftChild && child.isLeftChild) {
-          this._rotateRight(gp, parent);
-
-        // Need to perform a RL rotation
-        } else if (!parent.isLeftChild && child.isLeftChild) {
-          this._rotateRight(parent, child);
-
-          // After the right rotation, child is now parent's parent, so we
-          // perform the subsequent left rotation with the gp and child pointers
-          this._rotateLeft(gp, child);
-
-          // The result of our rotations is the new root of the subtree is our
-          // original child node
-          newRoot = child;
-
-        // Need to perform an LR rotation
+    // Correct violations
+    while (parent) {
+      // There is a violation
+      if (parent.red && child.red) {
+        const gp = parent.parent;
+        const uncle = parent.isLeftChild ? gp.right : gp.left;
+  
+        // Red uncle means a color change
+        if (uncle && uncle.red) {
+          gp.red = true;
+          uncle.red = false;
+          parent.red = false;
+  
+        // Otherwise we perform a rotation
+        // Recall that null nodes are considered black
         } else {
-          this._rotateLeft(parent, child);
-          this._rotateRight(gp, child);
-          newRoot = child;
+          let newRoot = parent;
+          
+          // Perform a left rotation
+          if (!parent.isLeftChild && !child.isLeftChild) {
+            this._rotateLeft(gp, parent);
+  
+          // Perform a right rotation
+          } else if (parent.isLeftChild && child.isLeftChild) {
+            this._rotateRight(gp, parent);
+  
+          // Need to perform a RL rotation
+          } else if (!parent.isLeftChild && child.isLeftChild) {
+            this._rotateRight(parent, child);
+  
+            // After the right rotation, child is now parent's parent, so we
+            // perform the subsequent left rotation with the gp and child pointers
+            this._rotateLeft(gp, child);
+  
+            // The result of our rotations is the new root of the subtree is our
+            // original child node
+            newRoot = child;
+  
+          // Need to perform an LR rotation
+          } else {
+            this._rotateLeft(parent, child);
+            this._rotateRight(gp, child);
+            newRoot = child;
+          }
+  
+          // Re-color
+          newRoot.red = false;
+          newRoot.left.red = true;
+          newRoot.right.red = true;
+
+          child = newRoot;
+          parent = child.parent;
+          continue;
         }
-
-        // Re-color
-        newRoot.red = false;
-        newRoot.left.red = true;
-        newRoot.right.red = true;
-
-        return newRoot;
       }
-    }
 
-    return parent;
+      child = parent;
+      parent = child.parent;
+    }
   }
 
   // Returns true on successful insertion and false otherwise
@@ -158,12 +160,16 @@ class RedBlackTree {
       return true;
     }
     
-    const res = this._insertChild(value);
+    let child = this._insertChild(value);
+
+    if (!child) return false;
+
+    this._correctViolations(child);
 
     // Ensure that the root node's color is black
     this.root.red = false;
 
-    return !(!res);
+    return true;
   }
 
   preOrderTraversal(parent=this.root) {
