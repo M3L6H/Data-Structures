@@ -43,6 +43,9 @@ class RedBlackTree {
     } else {
       this.root = child;
     }
+
+    child.parent = parent.parent;
+    parent.parent = child;
   }
 
   _rotateRight(parent, child) {
@@ -59,6 +62,9 @@ class RedBlackTree {
     } else {
       this.root = child;
     }
+
+    child.parent = parent.parent;
+    parent.parent = child;
   }
 
   _insertChild(value, parent=this.root) {
