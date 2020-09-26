@@ -74,7 +74,7 @@ test("correctly performs color flips", () => {
   rbt.insert(30);
 
   expect(rbt.root.value).toEqual(20);
-  expect(rbt.root.red).toEqual(true);
+  expect(rbt.root.red).toEqual(false);
 
   expect(rbt.root.left.value).toEqual(10);
   expect(rbt.root.left.red).toEqual(false);
