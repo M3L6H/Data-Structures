@@ -59,3 +59,29 @@ test("rejects duplicates", () => {
   expect(rbt.insert(13)).toBeFalsy();
   expect(rbt.insert(5)).toBeFalsy();
 });
+
+test("correctly performs color flips", () => {
+  const rbt = new RedBlackTree();
+
+  rbt.insert(20);
+  rbt.insert(10);
+  rbt.insert(28);
+
+  expect(rbt.root.red).toEqual(false);
+  expect(rbt.root.left.red).toEqual(true);
+  expect(rbt.root.right.red).toEqual(true);
+
+  rbt.insert(30);
+
+  expect(rbt.root.value).toEqual(20);
+  expect(rbt.root.red).toEqual(true);
+
+  expect(rbt.root.left.value).toEqual(10);
+  expect(rbt.root.left.red).toEqual(false);
+
+  expect(rbt.root.right.value).toEqual(28);
+  expect(rbt.root.right.red).toEqual(false);
+
+  expect(rbt.root.right.value).toEqual(30);
+  expect(rbt.root.right.red).toEqual(true);
+});
