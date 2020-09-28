@@ -158,6 +158,27 @@ class RedBlackTree {
     return value < node.val ? this._find(value, node.left) : this._find(value, node.right);
   }
 
+  _deleteNode(node) {
+    if (node.left && node.right) {
+
+    } else if (node.left) {
+
+    } else if (node.right) {
+
+    } else {
+      const parent = node.parent;
+      node.parent = null;
+
+      if (parent.left === node) {
+        parent.left = null;
+      } else {
+        parent.right = null;
+      }
+      
+      --this.size;
+    }
+  }
+
   // Returns true on successful insertion and false otherwise
   insert(value) {
     if (this.root === null) {
@@ -183,6 +204,7 @@ class RedBlackTree {
     const node = _find(value);
     if (node === null) return null;
     _deleteNode(node);
+    return value;
   }
 
   preOrderTraversal(parent=this.root) {
