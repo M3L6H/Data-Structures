@@ -151,6 +151,13 @@ class RedBlackTree {
     }
   }
 
+  // Returns the node if it is found in the tree and null otherwise
+  _find(value, node=this.root) {
+    if (node === null) return null;
+    if (value === node.val) return node;
+    return value < node.val ? this._find(value, node.left) : this._find(value, node.right);
+  }
+
   // Returns true on successful insertion and false otherwise
   insert(value) {
     if (this.root === null) {
