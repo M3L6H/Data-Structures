@@ -87,7 +87,7 @@ class RedBlackTree {
     }
   }
 
-  _correctViolations(child) {
+  _correctInsertionViolations(child) {
     let parent = child.parent;
 
     // Correct violations
@@ -158,6 +158,46 @@ class RedBlackTree {
     return value < node.value ? this._find(value, node.left) : this._find(value, node.right);
   }
 
+  _correctDeletionViolations(child) {
+    // Deleting a red node will never break the rules of a RB tree, so no
+    // correction is needed
+    if (child.red) return;
+    
+    const parent = child.parent;
+
+    // If we are the root node there is no correction to be done
+    if (!parent) return;
+    
+    const sibling = parent.left === child ? parent.right : parent.left;
+
+    if (sibling.red) {
+      sibling.red = parent.red;
+      parent.red = true;
+
+      if (parent.left === child) {
+        this._rotateLeft(parent, sibling);
+      } else {
+        this._rotateRight(parent, sibling);
+      }
+
+      this._correctDeletionViolations(child);
+    } else {
+      // Sibling is black and both its children are black
+      if ((!sibling.left || !sibling.left.red) && (!sibling.right || !sibling.right.red)) {
+        sibling.red = true;
+        
+        // If the parent is red, we just flip it to black
+        if (parent.red) {
+          parent.red = false;
+
+        // Otherwise we need to correct the parent
+        } else {
+          this._correctDeletionViolations(parent);
+        }
+      }
+    }
+  }
+
   _deleteNode(node) {
     // We have two children, so replace our value with that of our in order
     // successor and delete that
@@ -211,7 +251,7 @@ class RedBlackTree {
 
     if (!child) return false;
 
-    this._correctViolations(child);
+    this._correctInsertionViolations(child);
 
     // Ensure that the root node's color is black
     this.root.red = false;
