@@ -158,30 +158,22 @@ class RedBlackTree {
     return value < node.value ? this._find(value, node.left) : this._find(value, node.right);
   }
 
-  // Transfers the relevant node information from a to b, effectively making b
-  // a copy of a
-  // Does not transfer relational information (i.e. left, right, parent)
-  _transferInfo(a, b) {
-    b.value = a.value;
-    b.red = a.red;
-  }
-
   _deleteNode(node) {
     // We have two children, so replace our value with that of our in order
     // successor and delete that
     if (node.left && node.right) {
       let inOrderSuccessor = node.right;
       while (inOrderSuccessor.left) inOrderSuccessor = inOrderSuccessor.left;
-      this._transferInfo(inOrderSuccessor, node);
+      node.value = inOrderSuccessor.value;
       this._deleteNode(inOrderSuccessor);
 
     // We have one child, so replace our value with our child's value and delete
     // the child instead
     } else if (node.left) {
-      this._transferInfo(node.left, node);
+      node.value = node.left.value;
       this._deleteNode(node.left);
     } else if (node.right) {
-      this._transferInfo(node.right, node);
+      node.value = node.right.value;
       this._deleteNode(node.right);
 
     // We have no children, so we delete ourselves by removing our connection
