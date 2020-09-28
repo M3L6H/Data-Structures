@@ -154,8 +154,16 @@ class RedBlackTree {
   // Returns the node if it is found in the tree and null otherwise
   _find(value, node=this.root) {
     if (node === null) return null;
-    if (value === node.val) return node;
-    return value < node.val ? this._find(value, node.left) : this._find(value, node.right);
+    if (value === node.value) return node;
+    return value < node.value ? this._find(value, node.left) : this._find(value, node.right);
+  }
+
+  // Transfers the relevant node information from a to b, effectively making b
+  // a copy of a
+  // Does not transfer relational information (i.e. left, right, parent)
+  _transferInfo(a, b) {
+    b.value = a.value;
+    b.red = a.red;
   }
 
   _deleteNode(node) {
@@ -164,16 +172,16 @@ class RedBlackTree {
     if (node.left && node.right) {
       let inOrderSuccessor = node.right;
       while (inOrderSuccessor.left) inOrderSuccessor = inOrderSuccessor.left;
-      node.val = inOrderSuccessor.val;
+      this._transferInfo(inOrderSuccessor, node);
       this._deleteNode(inOrderSuccessor);
 
     // We have one child, so replace our value with our child's value and delete
     // the child instead
     } else if (node.left) {
-      node.val = node.left.val;
+      this._transferInfo(node.left, node);
       this._deleteNode(node.left);
     } else if (node.right) {
-      node.val = node.right.val;
+      this._transferInfo(node.right, node);
       this._deleteNode(node.right);
 
     // We have no children, so we delete ourselves by removing our connection
@@ -182,10 +190,17 @@ class RedBlackTree {
       const parent = node.parent;
       node.parent = null;
 
-      if (parent.left === node) {
-        parent.left = null;
+      // We are deleting the root node, so update our root pointer
+      if (parent === null) {
+        this.root = null;
+      
+      // We are deleting a leaf node, so update our parent node's pointer
       } else {
-        parent.right = null;
+        if (parent.left === node) {
+          parent.left = null;
+        } else {
+          parent.right = null;
+        }
       }
       
       --this.size;
