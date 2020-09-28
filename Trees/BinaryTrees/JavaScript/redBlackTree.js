@@ -178,6 +178,13 @@ class RedBlackTree {
     return true;
   }
 
+  // Returns the value on a successful deletion and null otherwise
+  delete(value) {
+    const node = _find(value);
+    if (node === null) return null;
+    _deleteNode(node);
+  }
+
   preOrderTraversal(parent=this.root) {
     if (!parent) return "";
     return this.preOrderTraversal(parent.left) + `${ parent.value }(${ parent.red ? "R" : "B" }) ` + this.preOrderTraversal(parent.right);
