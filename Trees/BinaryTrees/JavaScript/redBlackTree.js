@@ -159,14 +159,25 @@ class RedBlackTree {
   }
 
   _deleteNode(node) {
+    // We have two children, so replace our value with that of our in order
+    // successor and delete that
     if (node.left && node.right) {
+      let inOrderSuccessor = node.right;
+      while (inOrderSuccessor.left) inOrderSuccessor = inOrderSuccessor.left;
+      node.val = inOrderSuccessor.val;
+      this._deleteNode(inOrderSuccessor);
 
+    // We have one child, so replace our value with our child's value and delete
+    // the child instead
     } else if (node.left) {
       node.val = node.left.val;
       this._deleteNode(node.left);
     } else if (node.right) {
       node.val = node.right.val;
       this._deleteNode(node.right);
+
+    // We have no children, so we delete ourselves by removing our connection
+    // from the tree
     } else {
       const parent = node.parent;
       node.parent = null;
