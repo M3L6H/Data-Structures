@@ -162,9 +162,11 @@ class RedBlackTree {
     if (node.left && node.right) {
 
     } else if (node.left) {
-
+      node.val = node.left.val;
+      this._deleteNode(node.left);
     } else if (node.right) {
-
+      node.val = node.right.val;
+      this._deleteNode(node.right);
     } else {
       const parent = node.parent;
       node.parent = null;
