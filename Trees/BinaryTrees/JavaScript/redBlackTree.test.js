@@ -336,4 +336,12 @@ test("correctly maintains red black tree invariants across deletions", () => {
   expect(rbt.delete(50)).toBeTruthy();
   expect(rbt.inOrderTraversal()).toEqual("65(B)[35(B)[15(R)[* *] *] 68(B)[* 70(R)[* *]]]");
   expect(rbt.size).toEqual(5);
+
+  expect(rbt.delete(35)).toBeTruthy();
+  expect(rbt.inOrderTraversal()).toEqual("65(B)[15(B)[* *] 68(B)[* 70(R)[* *]]]");
+  expect(rbt.size).toEqual(4);
+
+  expect(rbt.delete(15)).toBeTruthy();
+  expect(rbt.inOrderTraversal()).toEqual("68(B)[65(B)[* *] 70(B)[* *]]");
+  expect(rbt.size).toEqual(3);
 });
