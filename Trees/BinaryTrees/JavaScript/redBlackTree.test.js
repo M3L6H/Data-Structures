@@ -276,6 +276,24 @@ test("correctly maintains red black tree invariants across insertions", () => {
   expect(rbt.inOrderTraversal()).toEqual("10(B)[8(R)[5(B)[3(R)[* *] 7(R)[* *]] 9(B)[* *]] 89(R)[88(B)[87(R)[* *] *] 90(B)[* *]]]");
 });
 
+test("does not delete nodes that do not exist", () => {
+  const rbt = new RedBlackTree();
+
+  rbt.insert(5);
+  rbt.insert(3);
+  rbt.insert(1);
+  rbt.insert(7);
+  rbt.insert(11);
+  rbt.insert(9);
+
+  expect(rbt.size).toEqual(6);
+  expect(rbt.delete(2)).toBeFalsy();
+  expect(rbt.delete(10)).toBeFalsy();
+  expect(rbt.delete(100)).toBeFalsy();
+  expect(rbt.delete(-3)).toBeFalsy();
+  expect(rbt.size).toEqual(6);
+});
+
 test("correctly maintains red black tree invariants across deletions", () => {
   const rbt = new RedBlackTree();
 
