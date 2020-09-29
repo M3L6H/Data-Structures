@@ -154,8 +154,8 @@ class RedBlackTree {
   // Returns the node if it is found in the tree and null otherwise
   _find(value, node=this.root) {
     if (node === null) return null;
-    if (value === node.value) return node;
-    return value < node.value ? this._find(value, node.left) : this._find(value, node.right);
+    if (this.comp(value, node.value) === 0) return node;
+    return this.comp(value, node.value) < 0 ? this._find(value, node.left) : this._find(value, node.right);
   }
 
   _correctDeletionViolations(child) {
