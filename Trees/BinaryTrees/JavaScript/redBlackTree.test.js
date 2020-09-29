@@ -284,7 +284,7 @@ test("correctly maintains red black tree invariants across deletions", () => {
   rbt.root = rbt._createNode(50, null, false);
 
   // Create left subtree
-  rbt.root.left = rbt._createNode(20, rbt.root, false);
+  rbt.root.left = rbt._createNode(30, rbt.root, false);
   rbt.root.left.left = rbt._createNode(15, rbt.root.left, false);
   rbt.root.left.right = rbt._createNode(35, rbt.root.left, false);
   
@@ -297,5 +297,5 @@ test("correctly maintains red black tree invariants across deletions", () => {
   rbt.root.right.right.right.right = rbt._createNode(90, rbt.root.right.right.right, true);
 
   expect(rbt.delete(55)).toBeTruthy();
-  expect(rbt.inOrderTraversal()).toEqual("50(B)[20(B)[15(B)[* *] 35(B)[* *]] 70(B)[65(B)[* 68(R)[* *]] 80(B)[* 90(R)[* *]]]]");
+  expect(rbt.inOrderTraversal()).toEqual("50(B)[30(B)[15(B)[* *] 35(B)[* *]] 70(B)[65(B)[* 68(R)[* *]] 80(B)[* 90(R)[* *]]]]");
 });
