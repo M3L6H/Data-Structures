@@ -291,9 +291,9 @@ class RedBlackTree {
 
   // Returns the value on a successful deletion and null otherwise
   delete(value) {
-    const node = _find(value);
+    const node = this._find(value);
     if (node === null) return null;
-    _deleteNode(node);
+    this._deleteNode(node);
     return value;
   }
 
