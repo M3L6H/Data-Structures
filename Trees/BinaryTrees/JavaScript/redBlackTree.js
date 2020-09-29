@@ -249,6 +249,8 @@ class RedBlackTree {
     // We have no children, so we delete ourselves by removing our connection
     // from the tree
     } else {
+      this._correctDeletionViolations(node);
+      
       const parent = node.parent;
       node.parent = null;
 
