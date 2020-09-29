@@ -194,6 +194,36 @@ class RedBlackTree {
         } else {
           this._correctDeletionViolations(parent);
         }
+      
+      // Complicated as this conditional looks, it is essentially checking
+      // whether the farther child of our sibling is black
+      } else if ((parent.left === child && (!sibling.right || !sibling.right.red)) || 
+                 (parent.right === child && (!sibling.left || !sibling.left.red))) {
+        const niece = parent.left === child ? sibling.left : sibling.right;
+        niece.red = false;
+        sibling.red = true;
+
+        if (parent.left === child) {
+          this._rotateRight(sibling, niece);
+        } else {
+          this._rotateLeft(sibling, niece);
+        }
+
+        this._correctDeletionViolations(child);
+      // We have established that one of the nieces is red. It is not the
+      // nearer child, so that means it is now the farther child that is red
+      } else {
+        sibling.red = parent.red;
+        parent.red = false;
+
+        if (parent.left === child) {
+          this._rotateLeft(parent, sibling);
+        } else {
+          this._rotateRight(parent, sibling);
+        }
+
+        const niece = parent.left === child ? sibling.right : sibling.left;
+        niece.red = false;
       }
     }
   }
