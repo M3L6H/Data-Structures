@@ -275,3 +275,25 @@ test("correctly maintains red black tree invariants across insertions", () => {
   rbt.insert(87);
   expect(rbt.inOrderTraversal()).toEqual("10(B)[8(R)[5(B)[3(R)[* *] 7(R)[* *]] 9(B)[* *]] 89(R)[88(B)[87(R)[* *] *] 90(B)[* *]]]");
 });
+
+test("correctly maintains red black tree invariants across deletions", () => {
+  const rbt = new RedBlackTree();
+
+  // To test the code with a particular tree, we use the internal implementation
+  // to create our own tree
+  rbt.root = rbt._createNode(50, null, false);
+
+  // Create left subtree
+  rbt.root.left = rbt._createNode(20, rbt.root, false);
+  rbt.root.left.left = rbt._createNode(15, rbt.root.left, false);
+  rbt.root.left.right = rbt._createNode(35, rbt.root.left, false);
+  
+  // Create right subtree
+  rbt.root.right = rbt._createNode(65, rbt.root, false);
+  rbt.root.right.left = rbt._createNode(55, rbt.root.right, false);
+  rbt.root.right.right = rbt._createNode(70, rbt.root.right, true);
+  rbt.root.right.right.left = rbt._createNode(68, rbt.root.right.right, false);
+  rbt.root.right.right.right = rbt._createNode(80, rbt.root.right.right, false);
+  rbt.root.right.right.right.right = rbt._createNode(90, rbt.root.right.right.right, true);
+
+});

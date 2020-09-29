@@ -16,7 +16,7 @@ class RedBlackTree {
 
   // Although I could have defined a class for the tree nodes, I decided they
   // were primitive enough that a POJO served the purpose just as well
-  _createNode(value, parent=null) {
+  _createNode(value, parent=null, red=true) {
     ++this.size;
 
     return {
@@ -24,7 +24,7 @@ class RedBlackTree {
       value,
       left: null,
       right: null,
-      red: true
+      red
     };
   }
 
