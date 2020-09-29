@@ -296,4 +296,6 @@ test("correctly maintains red black tree invariants across deletions", () => {
   rbt.root.right.right.right = rbt._createNode(80, rbt.root.right.right, false);
   rbt.root.right.right.right.right = rbt._createNode(90, rbt.root.right.right.right, true);
 
+  expect(rbt.delete(55)).toBeTruthy();
+  expect(rbt.inOrderTraversal()).toEqual("50(B)[20(B)[15(B)[* *] 35(B)[* *]] 70(B)[65(B)[* 68(R)[* *]] 80(B)[* 90(R)[* *]]]]");
 });
