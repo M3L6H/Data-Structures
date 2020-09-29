@@ -294,6 +294,36 @@ test("does not delete nodes that do not exist", () => {
   expect(rbt.size).toEqual(6);
 });
 
+test("allows deletion of entire tree", () => {
+  const rbt = new RedBlackTree((a, b) => {
+    if (a === b) {
+      return 0;
+    } else if (a.charCodeAt(0) < b.charCodeAt(0)) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+
+  rbt.insert("e");
+  rbt.insert("a");
+  rbt.insert("f");
+
+  expect(rbt.inOrderTraversal()).toEqual("e(B)[a(R)[* *] f(R)[* *]]");
+
+  rbt.delete("e");
+  rbt.delete("a");
+  rbt.delete("f");
+
+  expect(rbt.size).toEqual(0);
+
+  rbt.insert("G");
+  rbt.insert("H");
+  rbt.insert("I");
+
+  expect(rbt.inOrderTraversal()).toEqual("H(B)[G(R)[* *] I(R)[* *]]");
+});
+
 test("correctly maintains red black tree invariants across deletions", () => {
   const rbt = new RedBlackTree();
 
