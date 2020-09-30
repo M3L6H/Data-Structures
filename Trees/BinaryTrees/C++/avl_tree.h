@@ -1,7 +1,9 @@
 #ifndef AVL_TREE_H_
 #define AVL_TREE_H_
 
+#include <algorithm>
 #include <assert.h>
+#include <sstream>
 #include <string>
 #include <utility>
 
@@ -72,9 +74,21 @@ template <class T> class AVLTree {
     bool Insert(const T& value) {
       if (root_ == nullptr) {
         root_ = CreateNode(value);
-        root_->height = 1;
         return true;
       }
+
+      Node* parent = FindClosest(value);
+
+      // We have already inserted this value into the tree
+      if (comp_(value, parent->value) == 0) return false;
+
+      if (comp_(value, parent->value) == -1) {
+        parent->left = CreateNode(value, parent);
+      } else {
+        parent->right = CreateNode(value, parent);
+      }
+
+      CorrectImbalance(parent);
     }
 
     // Delete an element from the tree
@@ -90,9 +104,13 @@ template <class T> class AVLTree {
     // Returns the pre-order traversal of the tree as a string
     // Allows the specification of an optional pair of delimeter characters to
     // further separate the tree
-    std::string PreOrderTraversal() const;
+    std::string PreOrderTraversal() const {
+      return PreOrderTraversal(std::pair<char, char>(' ', '\0'));
+    }
     std::string PreOrderTraversal(const std::pair<char, char>& delimiter,
-                                  bool show_nulls=false) const;
+                                  bool show_nulls=false) const {
+      return PreOrderTraversal(delimiter, show_nulls, root_);
+    }
 
     // Returns the in-order traversal of the tree as a string
     std::string InOrderTraversal() const;
@@ -103,13 +121,12 @@ template <class T> class AVLTree {
   private:
     // Internal node struct used to maintain tree structure
     struct Node {
-      explicit Node(T value, bool is_left_child, Node* parent)
+      explicit Node(T value, Node* parent)
           : value(value),
-            is_left_child(is_left_child),
             parent(parent),
             left(nullptr),
             right(nullptr),
-            height(0) {}
+            height(1) {}
       
       // Pointer to the parent of this node. Null if this is the root node
       Node* parent;
@@ -125,18 +142,13 @@ template <class T> class AVLTree {
       // 1 if this is a leaf node
       // Will always be one less than the height of its parent
       int height;
-
-      // Flag for whether this is a left or right child
-      // Meaningless in the case of the root node
-      bool is_left_child;
     };
 
     // Creates a new blank node with the given value and increments size
     // accordingly
-    Node* CreateNode(const T& value, bool is_left_child=false,
-                     Node* parent=nullptr) {
+    Node* CreateNode(const T& value, Node* parent=nullptr) {
       ++size_;
-      return new Node(value, is_left_child, parent);
+      return new Node(value, parent);
     }
 
     // Finds the node with the closest value to value
@@ -173,14 +185,102 @@ template <class T> class AVLTree {
       }
     }
 
+    // Returns the heights of node's left and right subtrees
+    std::pair<int, int> GetHeights(Node* node) const {
+      int left_height = node->left == nullptr ? 0 : node->left->height;
+      int right_height = node->right == nullptr ? 0 : node->right->height;
+
+      return std::pair<int, int>(left_height, right_height);
+    }
+
     // Returns the in-order successor of the given node
-    Node* InOrderSuccessor(Node* node) const;
+    Node* InOrderSuccessor(Node* node) const {
+      Node* successor = node->right;
+
+      if (successor != nullptr) {
+        while (successor->left != nullptr) successor = successor->left;
+      }
+
+      return successor;
+    }
 
     // Rotates the given nodes to the right
-    void RotateRight(Node* parent, Node* child);
+    void RotateRight(Node* parent, Node* child) {
+      parent->left = child->right;
+      child->right = parent;
+      --parent->height;
+      ++child->height;
+    }
 
     // Rotates the given nodes to the left
-    void RotateLeft(Node* parent, Node* child);
+    void RotateLeft(Node* parent, Node* child) {
+      parent->right = child->left;
+      child->left = parent;
+      --parent->height;
+      ++child->height;
+    }
+
+    // Corrects imbalances
+    void CorrectImbalance(Node* node) {
+      // Base case
+      if (node == nullptr) return;
+      
+      // Update node height
+      std::pair<int, int> heights = GetHeights(node);
+      node->height = std::max(heights.first, heights.second) + 1;
+
+      // The next node to correct. Is not necessary the current node's parent if
+      // we end up performing rotations
+      Node* next_node = node->parent;
+
+      // Compare for imbalance
+      if (heights.first > heights.second + 1) {
+        Node* child = node->left;
+        std::pair<int, int> child_heights = GetHeights(child);
+
+        // Check the balance factor of our child to determine rotation
+        if (child_heights.first > child_heights.second) {
+          RotateRight(node, child);
+          next_node = child;
+        } else {
+          RotateLeft(child, child->right);
+          next_node = node->left;
+          RotateRight(node, node->left);
+        }
+      } else if (heights.second > heights.first + 1) {
+        Node* child = node->right;
+        std::pair<int, int> child_heights = GetHeights(child);
+
+        if (child_heights.first > child_heights.second) {
+          RotateLeft(node, child);
+          next_node = child;
+        } else {
+          RotateRight(child, child->left);
+          next_node = node->right;
+          RotateLeft(node, node->right);
+        }
+      }
+      
+      CorrectImbalance(next_node);
+    }
+
+    std::string PreOrderTraversal(const std::pair<char, char>& delimiter,
+                                  bool show_nulls,
+                                  Node* node) const {
+      if (node == nullptr) return show_nulls ? "*" : "";
+      std::string left = PreOrderTraversal(delimiter, show_nulls, node->left);
+      std::string right = PreOrderTraversal(delimiter, show_nulls, node->right);
+
+      std::stringstream ss;
+      ss << node->value;
+      ss << delimiter.first;
+      ss << left;
+      ss << (left != "" ? " " : "");
+      ss << right;
+      ss << delimiter.second;
+
+      return ss.str();
+    }
 
     int size_;
 
