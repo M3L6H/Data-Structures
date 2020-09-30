@@ -16,8 +16,8 @@
 //    tree->InOrderTraversal(); // 3 5 10
 template <class T> class AVLTree {
   public:
-    typdef int Comp (const T&, const T&);
-  
+    typedef int Comp (const T&, const T&);
+
     explicit AVLTree();
     explicit AVLTree(Comp comp);
 
@@ -48,7 +48,7 @@ template <class T> class AVLTree {
     std::string InOrderTraversal() const;
 
     // Returns the post-order traversal of the tree as a string
-    std::string PreOrderTraversal() const;
+    std::string PostOrderTraversal() const;
 
   private:
     // Internal node struct used to maintain tree structure
