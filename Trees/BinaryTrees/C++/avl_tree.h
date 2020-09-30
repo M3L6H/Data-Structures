@@ -1,6 +1,8 @@
 #ifndef AVL_TREE_H_
 #define AVL_TREE_H_
 
+#include <string>
+
 // Generic implementation of an AVL tree
 // Allows specifying a comparison function
 // The default comparison function uses < and == operators, so if not providing
@@ -33,6 +35,15 @@ template <class T> class AVLTree {
 
     // Returns the number of elements currently in the tree
     int size() const;
+
+    // Returns the pre-order traversal of the tree as a string
+    std::string PreOrderTraversal() const;
+
+    // Returns the in-order traversal of the tree as a string
+    std::string InOrderTraversal() const;
+
+    // Returns the post-order traversal of the tree as a string
+    std::string PreOrderTraversal() const;
 
   private:
     // Internal node struct used to maintain tree structure
