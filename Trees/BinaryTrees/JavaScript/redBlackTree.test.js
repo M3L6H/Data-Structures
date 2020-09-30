@@ -246,34 +246,34 @@ test("correctly maintains red black tree invariants across insertions", () => {
   const rbt = new RedBlackTree();
 
   rbt.insert(10);
-  expect(rbt.inOrderTraversal()).toEqual("10(B)[* *]");
+  expect(rbt.preOrderTraversal()).toEqual("10(B)[* *]");
 
   rbt.insert(3);
-  expect(rbt.inOrderTraversal()).toEqual("10(B)[3(R)[* *] *]");
+  expect(rbt.preOrderTraversal()).toEqual("10(B)[3(R)[* *] *]");
 
   rbt.insert(8);
-  expect(rbt.inOrderTraversal()).toEqual("8(B)[3(R)[* *] 10(R)[* *]]");
+  expect(rbt.preOrderTraversal()).toEqual("8(B)[3(R)[* *] 10(R)[* *]]");
 
   rbt.insert(9);
-  expect(rbt.inOrderTraversal()).toEqual("8(B)[3(B)[* *] 10(B)[9(R)[* *] *]]");
+  expect(rbt.preOrderTraversal()).toEqual("8(B)[3(B)[* *] 10(B)[9(R)[* *] *]]");
 
   rbt.insert(7);
-  expect(rbt.inOrderTraversal()).toEqual("8(B)[3(B)[* 7(R)[* *]] 10(B)[9(R)[* *] *]]");
+  expect(rbt.preOrderTraversal()).toEqual("8(B)[3(B)[* 7(R)[* *]] 10(B)[9(R)[* *] *]]");
 
   rbt.insert(5);
-  expect(rbt.inOrderTraversal()).toEqual("8(B)[5(B)[3(R)[* *] 7(R)[* *]] 10(B)[9(R)[* *] *]]");
+  expect(rbt.preOrderTraversal()).toEqual("8(B)[5(B)[3(R)[* *] 7(R)[* *]] 10(B)[9(R)[* *] *]]");
 
   rbt.insert(90);
-  expect(rbt.inOrderTraversal()).toEqual("8(B)[5(B)[3(R)[* *] 7(R)[* *]] 10(B)[9(R)[* *] 90(R)[* *]]]");
+  expect(rbt.preOrderTraversal()).toEqual("8(B)[5(B)[3(R)[* *] 7(R)[* *]] 10(B)[9(R)[* *] 90(R)[* *]]]");
 
   rbt.insert(89);
-  expect(rbt.inOrderTraversal()).toEqual("8(B)[5(B)[3(R)[* *] 7(R)[* *]] 10(R)[9(B)[* *] 90(B)[89(R)[* *] *]]]");
+  expect(rbt.preOrderTraversal()).toEqual("8(B)[5(B)[3(R)[* *] 7(R)[* *]] 10(R)[9(B)[* *] 90(B)[89(R)[* *] *]]]");
 
   rbt.insert(88);
-  expect(rbt.inOrderTraversal()).toEqual("8(B)[5(B)[3(R)[* *] 7(R)[* *]] 10(R)[9(B)[* *] 89(B)[88(R)[* *] 90(R)[* *]]]]");
+  expect(rbt.preOrderTraversal()).toEqual("8(B)[5(B)[3(R)[* *] 7(R)[* *]] 10(R)[9(B)[* *] 89(B)[88(R)[* *] 90(R)[* *]]]]");
 
   rbt.insert(87);
-  expect(rbt.inOrderTraversal()).toEqual("10(B)[8(R)[5(B)[3(R)[* *] 7(R)[* *]] 9(B)[* *]] 89(R)[88(B)[87(R)[* *] *] 90(B)[* *]]]");
+  expect(rbt.preOrderTraversal()).toEqual("10(B)[8(R)[5(B)[3(R)[* *] 7(R)[* *]] 9(B)[* *]] 89(R)[88(B)[87(R)[* *] *] 90(B)[* *]]]");
 });
 
 test("does not delete nodes that do not exist", () => {
@@ -309,7 +309,7 @@ test("allows deletion of entire tree", () => {
   rbt.insert("a");
   rbt.insert("f");
 
-  expect(rbt.inOrderTraversal()).toEqual("e(B)[a(R)[* *] f(R)[* *]]");
+  expect(rbt.preOrderTraversal()).toEqual("e(B)[a(R)[* *] f(R)[* *]]");
 
   rbt.delete("e");
   rbt.delete("a");
@@ -321,7 +321,7 @@ test("allows deletion of entire tree", () => {
   rbt.insert("H");
   rbt.insert("I");
 
-  expect(rbt.inOrderTraversal()).toEqual("H(B)[G(R)[* *] I(R)[* *]]");
+  expect(rbt.preOrderTraversal()).toEqual("H(B)[G(R)[* *] I(R)[* *]]");
 });
 
 test("correctly maintains red black tree invariants across deletions", () => {
@@ -348,30 +348,30 @@ test("correctly maintains red black tree invariants across deletions", () => {
   expect(rbt.size).toEqual(10);
 
   expect(rbt.delete(55)).toBeTruthy();
-  expect(rbt.inOrderTraversal()).toEqual("50(B)[30(B)[15(B)[* *] 35(B)[* *]] 70(B)[65(B)[* 68(R)[* *]] 80(B)[* 90(R)[* *]]]]");
+  expect(rbt.preOrderTraversal()).toEqual("50(B)[30(B)[15(B)[* *] 35(B)[* *]] 70(B)[65(B)[* 68(R)[* *]] 80(B)[* 90(R)[* *]]]]");
   expect(rbt.size).toEqual(9);
   
   expect(rbt.delete(30)).toBeTruthy();
-  expect(rbt.inOrderTraversal()).toEqual("50(B)[35(B)[15(R)[* *] *] 70(R)[65(B)[* 68(R)[* *]] 80(B)[* 90(R)[* *]]]]");
+  expect(rbt.preOrderTraversal()).toEqual("50(B)[35(B)[15(R)[* *] *] 70(R)[65(B)[* 68(R)[* *]] 80(B)[* 90(R)[* *]]]]");
   expect(rbt.size).toEqual(8);
 
   expect(rbt.delete(90)).toBeTruthy();
-  expect(rbt.inOrderTraversal()).toEqual("50(B)[35(B)[15(R)[* *] *] 70(R)[65(B)[* 68(R)[* *]] 80(B)[* *]]]");
+  expect(rbt.preOrderTraversal()).toEqual("50(B)[35(B)[15(R)[* *] *] 70(R)[65(B)[* 68(R)[* *]] 80(B)[* *]]]");
   expect(rbt.size).toEqual(7);
   
   expect(rbt.delete(80)).toBeTruthy();
-  expect(rbt.inOrderTraversal()).toEqual("50(B)[35(B)[15(R)[* *] *] 68(R)[65(B)[* *] 70(B)[* *]]]");
+  expect(rbt.preOrderTraversal()).toEqual("50(B)[35(B)[15(R)[* *] *] 68(R)[65(B)[* *] 70(B)[* *]]]");
   expect(rbt.size).toEqual(6);
 
   expect(rbt.delete(50)).toBeTruthy();
-  expect(rbt.inOrderTraversal()).toEqual("65(B)[35(B)[15(R)[* *] *] 68(B)[* 70(R)[* *]]]");
+  expect(rbt.preOrderTraversal()).toEqual("65(B)[35(B)[15(R)[* *] *] 68(B)[* 70(R)[* *]]]");
   expect(rbt.size).toEqual(5);
 
   expect(rbt.delete(35)).toBeTruthy();
-  expect(rbt.inOrderTraversal()).toEqual("65(B)[15(B)[* *] 68(B)[* 70(R)[* *]]]");
+  expect(rbt.preOrderTraversal()).toEqual("65(B)[15(B)[* *] 68(B)[* 70(R)[* *]]]");
   expect(rbt.size).toEqual(4);
 
   expect(rbt.delete(15)).toBeTruthy();
-  expect(rbt.inOrderTraversal()).toEqual("68(B)[65(B)[* *] 70(B)[* *]]");
+  expect(rbt.preOrderTraversal()).toEqual("68(B)[65(B)[* *] 70(B)[* *]]");
   expect(rbt.size).toEqual(3);
 });

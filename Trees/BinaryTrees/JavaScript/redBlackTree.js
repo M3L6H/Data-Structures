@@ -299,14 +299,14 @@ class RedBlackTree {
     return value;
   }
 
-  preOrderTraversal(parent=this.root) {
+  inOrderTraversal(parent=this.root) {
     if (!parent) return "";
-    return this.preOrderTraversal(parent.left) + `${ parent.value }(${ parent.red ? "R" : "B" }) ` + this.preOrderTraversal(parent.right);
+    return this.inOrderTraversal(parent.left) + `${ parent.value }(${ parent.red ? "R" : "B" }) ` + this.inOrderTraversal(parent.right);
   }
 
-  inOrderTraversal(parent=this.root) {
+  preOrderTraversal(parent=this.root) {
     if (!parent) return "*";
-    return `${ parent.value }(${ parent.red ? "R" : "B" })[` + this.inOrderTraversal(parent.left) + " " + this.inOrderTraversal(parent.right) + "]";
+    return `${ parent.value }(${ parent.red ? "R" : "B" })[` + this.preOrderTraversal(parent.left) + " " + this.preOrderTraversal(parent.right) + "]";
   }
 }
 
