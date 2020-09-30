@@ -31,6 +31,7 @@ template <class T> class AVLTree {
   private:
     // Internal node struct used to maintain tree structure
     struct Node {
+      Node* parent;
       T value;
       Node* left;
       Node* right;
@@ -39,7 +40,7 @@ template <class T> class AVLTree {
 
     // Creates a new blank node with the given value and increments size
     // accordingly
-    Node* CreateNode(const T& value);
+    Node* CreateNode(const T& value, Node* parent=nullptr);
 
     // Finds the node with the closest value to value
     // Will always return a non-null pointer except when the tree is empty
