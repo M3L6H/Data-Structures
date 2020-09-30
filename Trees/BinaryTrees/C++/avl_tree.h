@@ -31,17 +31,29 @@ template <class T> class AVLTree {
   private:
     // Internal node struct used to maintain tree structure
     struct Node {
+      // Pointer to the parent of this node. Null if this is the root node
       Node* parent;
-      T value;
+
+      // Pointers to the left and right children of this node
+      // Null if this is a leaf node
       Node* left;
       Node* right;
+
+      T value;
+
+      // The height of this node
+      // 1 if this is a leaf node
+      // Will always be one less than the height of its parent
       int height;
-      bool is_left_node;
+
+      // Flag for whether this is a left or right child
+      // Meaningless in the case of the root node
+      bool is_left_child;
     };
 
     // Creates a new blank node with the given value and increments size
     // accordingly
-    Node* CreateNode(const T& value, bool is_left_node, Node* parent=nullptr);
+    Node* CreateNode(const T& value, bool is_left_child, Node* parent=nullptr);
 
     // Finds the node with the closest value to value
     // Will always return a non-null pointer except when the tree is empty
