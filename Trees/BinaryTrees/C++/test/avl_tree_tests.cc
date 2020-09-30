@@ -1,18 +1,31 @@
 #include "../avl_tree.h"
 
+#include <cmath>
+
 #include <gtest/gtest.h>
 
 class AVLTreeTests : public ::testing::Test {
   protected:
     void SetUp() override {
       simple_tree = new AVLTree<int>();
+      abs_tree = new AVLTree<int>([](const int& a, const int& b) {
+        if (std::abs(a) < std::abs(b)) {
+          return -1;
+        } else if (std::abs(a) == std::abs(b)) {
+          return 0;
+        }
+
+        return 1;
+      });
     }
 
     void TearDown() override {
       delete simple_tree;
+      delete abs_tree;
     }
 
   AVLTree<int>* simple_tree;
+  AVLTree<int>* abs_tree;
 };
 
 TEST_F(AVLTreeTests, TreeStartsEmpty) {
