@@ -36,11 +36,12 @@ template <class T> class AVLTree {
       Node* left;
       Node* right;
       int height;
+      bool is_left_node;
     };
 
     // Creates a new blank node with the given value and increments size
     // accordingly
-    Node* CreateNode(const T& value, Node* parent=nullptr);
+    Node* CreateNode(const T& value, bool is_left_node, Node* parent=nullptr);
 
     // Finds the node with the closest value to value
     // Will always return a non-null pointer except when the tree is empty
