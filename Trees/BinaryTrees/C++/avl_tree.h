@@ -1,3 +1,6 @@
+#ifndef AVL_TREE_H_
+#define AVL_TREE_H_
+
 template <class T> class AVLTree {
   public:
     explicit AVLTree();
@@ -8,9 +11,7 @@ template <class T> class AVLTree {
       public:
         explicit Node(const T& value);
 
-        inline const T value() const {
-          return value;
-        }
+        const T value() const;
         
         Node* left_;
         Node* right_;
@@ -22,3 +23,5 @@ template <class T> class AVLTree {
 
     Node* root_;
 };
+
+#endif // AVL_TREE_H_
