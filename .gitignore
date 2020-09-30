@@ -1,6 +1,6 @@
 # C++
 *.o
-build/
+cmake-build-vs/
 googletest/
 
 # Node
