@@ -18,7 +18,9 @@ template <class T> class AVLTree {
   public:
     typedef int Comp (const T&, const T&);
 
+    // Default constructor. Does not require any parameters
     explicit AVLTree() : root_(nullptr), size_(0) {
+      // Initialize default comparison function
       comp_ = [](const T& a, const T& b) {
         if (a < b) {
           return -1;
@@ -30,6 +32,25 @@ template <class T> class AVLTree {
       };
     }
 
+    // Constructor providing a comparison function
+    // Useful in cases where the type T to be inserted in the tree uses some
+    // form of non-standard comparison
+    // Can also be used to reverse the ordering of the tree
+    // Example:
+    //    AVLTree<int>* tree = newAVLTree<int>([](const int& a, const int& b) {
+    //      if (b < a) {
+    //        return -1;
+    //      } else if (a == b) {
+    //        return 0;
+    //      }
+    //
+    //      return 1;
+    //    });
+    //
+    //    tree->Insert(5);
+    //    tree->Insert(2);
+    //    tree->Insert(7);
+    //    tree->InOrderTraversal(); // 7 5 2
     explicit AVLTree(Comp comp) : root_(nullptr), size_(0), comp_(comp) {}
 
     // Check whether the tree contains the given value
