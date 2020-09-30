@@ -14,7 +14,5 @@ AVLTree<T>::AVLTree() : root_(nullptr), size_(0) {
 }
 
 template<class T>
-AVLTree<T>::AVLTree(AVLTree<T>::Comp comp) 
-{
-  
-}
+AVLTree<T>::AVLTree(AVLTree<T>::Comp comp)
+    : root_(nullptr), size_(0), comp_(comp) {}
