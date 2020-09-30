@@ -93,7 +93,7 @@ template <class T> class AVLTree {
     int size_;
 
     Node* root_;
-    Comp comp_;
+    Comp* comp_;
 };
 
 #endif // AVL_TREE_H_
