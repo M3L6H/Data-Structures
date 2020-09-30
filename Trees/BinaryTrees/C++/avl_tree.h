@@ -2,6 +2,7 @@
 #define AVL_TREE_H_
 
 #include <string>
+#include <utility>
 
 // Generic implementation of an AVL tree
 // Allows specifying a comparison function
@@ -37,7 +38,11 @@ template <class T> class AVLTree {
     int size() const;
 
     // Returns the pre-order traversal of the tree as a string
+    // Allows the specification of an optional pair of delimeter characters to
+    // further separate the tree
     std::string PreOrderTraversal() const;
+    std::string PreOrderTraversal(const std::pair<char, char>& delimiter,
+                                  bool show_nulls=false) const;
 
     // Returns the in-order traversal of the tree as a string
     std::string InOrderTraversal() const;
