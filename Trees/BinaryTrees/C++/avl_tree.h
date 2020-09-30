@@ -208,16 +208,26 @@ template <class T> class AVLTree {
     void RotateRight(Node* parent, Node* child) {
       parent->left = child->right;
       child->right = parent;
+
+      // Update heights
       --parent->height;
       ++child->height;
+
+      // Update root pointer
+      if (parent == root_) root_ = child;
     }
 
     // Rotates the given nodes to the left
     void RotateLeft(Node* parent, Node* child) {
       parent->right = child->left;
       child->left = parent;
+
+      // Update heights
       --parent->height;
       ++child->height;
+
+      // Update root pointer
+      if (parent == root_) root_ = child;
     }
 
     // Corrects imbalances
@@ -251,7 +261,7 @@ template <class T> class AVLTree {
         Node* child = node->right;
         std::pair<int, int> child_heights = GetHeights(child);
 
-        if (child_heights.first > child_heights.second) {
+        if (child_heights.second > child_heights.first) {
           RotateLeft(node, child);
           next_node = child;
         } else {
