@@ -9,7 +9,7 @@
 // The default comparison function uses < and == operators, so if not providing
 // a comparison function, ensure that < and == are defined on T
 // Example:
-//    AVLTree* tree = new AVLTree();
+//    AVLTree<int>* tree = new AVLTree<int>();
 //    tree->Insert(5);
 //    tree->Insert(3);
 //    tree->Insert(10);
