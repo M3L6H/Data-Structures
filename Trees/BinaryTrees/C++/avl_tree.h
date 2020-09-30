@@ -1,6 +1,7 @@
 #ifndef AVL_TREE_H_
 #define AVL_TREE_H_
 
+#include <assert.h>
 #include <string>
 #include <utility>
 
@@ -54,7 +55,16 @@ template <class T> class AVLTree {
     explicit AVLTree(Comp comp) : root_(nullptr), size_(0), comp_(comp) {}
 
     // Check whether the tree contains the given value
-    bool Contains(const T& value) const;
+    bool Contains(const T& value) const {
+      Node* node = FindClosest(value);
+
+      // If find closest returned null, the tree is empty
+      if (node == nullptr) return false;
+
+      // It is possible that the node found by find closest is not the actual
+      // value we need
+      return node->value == value;
+    }
 
     // Insert an element into the tree
     // Returns true if the insertion was successful (i.e. the tree did not
@@ -131,7 +141,37 @@ template <class T> class AVLTree {
 
     // Finds the node with the closest value to value
     // Will always return a non-null pointer except when the tree is empty
-    Node* FindClosest(const T& value) const;
+    Node* FindClosest(const T& value) const {
+      if (root_ == nullptr) return nullptr;
+      return FindClosest(value, root_);
+    }
+
+    Node* FindClosest(const T& value, Node* node) const {
+      int res = comp_(value, node->value);
+
+      switch (res) {
+        case -1: {
+          if (node->left == nullptr) {
+            return node;
+          } else {
+            return FindClosest(value, node->left);
+          }
+        }
+        case 0: {
+          return node;
+        }
+        case 1: {
+          if (node->right == nullptr) {
+            return node;
+          } else {
+            return FindClosest(value, node->right);
+          }
+        }
+        default: {
+          assert(false);
+        }
+      }
+    }
 
     // Returns the in-order successor of the given node
     Node* InOrderSuccessor(Node* node) const;

@@ -23,3 +23,9 @@ TEST_F(AVLTreeTests, TreeInsertsOneElementCorrectly) {
   EXPECT_EQ(true, simple_tree->Insert(5));
   EXPECT_EQ(1, simple_tree->size());
 }
+
+TEST_F(AVLTreeTests, ContainsShouldCheckIfValueIsInTree) {
+  EXPECT_EQ(false, simple_tree->Contains(10));
+  simple_tree->Insert(10);
+  EXPECT_EQ(true, simple_tree->Contains(10));
+}
