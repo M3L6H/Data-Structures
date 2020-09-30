@@ -5,6 +5,12 @@
 // Allows specifying a comparison function
 // The default comparison function uses < and == operators, so if not providing
 // a comparison function, ensure that < and == are defined on T
+// Example:
+//    AVLTree* tree = new AVLTree();
+//    tree->Insert(5);
+//    tree->Insert(3);
+//    tree->Insert(10);
+//    tree->InOrderTraversal(); // 3 5 10
 template <class T> class AVLTree {
   public:
     typdef int Comp (const T&, const T&);
