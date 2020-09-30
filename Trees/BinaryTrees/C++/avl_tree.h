@@ -18,8 +18,19 @@ template <class T> class AVLTree {
   public:
     typedef int Comp (const T&, const T&);
 
-    explicit AVLTree();
-    explicit AVLTree(Comp comp);
+    explicit AVLTree() : root_(nullptr), size_(0) {
+      comp_ = [](const T& a, const T& b) {
+        if (a < b) {
+          return -1;
+        } else if (a == b) {
+          return 0;
+        }
+        
+        return 1;
+      };
+    }
+
+    explicit AVLTree(Comp comp) : root_(nullptr), size_(0), comp_(comp) {}
 
     // Check whether the tree contains the given value
     bool Contains(const T& value) const;
@@ -35,7 +46,9 @@ template <class T> class AVLTree {
     bool Delete(const T& value);
 
     // Returns the number of elements currently in the tree
-    int size() const;
+    inline int size() const {
+      return size_;
+    }
 
     // Returns the pre-order traversal of the tree as a string
     // Allows the specification of an optional pair of delimeter characters to
