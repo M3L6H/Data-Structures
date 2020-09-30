@@ -38,7 +38,13 @@ template <class T> class AVLTree {
     // Insert an element into the tree
     // Returns true if the insertion was successful (i.e. the tree did not
     // already contain value)
-    bool Insert(const T& value);
+    bool Insert(const T& value) {
+      if (root_ == nullptr) {
+        root_ = CreateNode(value);
+        root_->height = 1;
+        return true;
+      }
+    }
 
     // Delete an element from the tree
     // Returns true if the deletion was successful (i.e. the tree contained the
@@ -66,6 +72,14 @@ template <class T> class AVLTree {
   private:
     // Internal node struct used to maintain tree structure
     struct Node {
+      explicit Node(T value, bool is_left_child, Node* parent)
+          : value(value),
+            is_left_child(is_left_child),
+            parent(parent),
+            left(nullptr),
+            right(nullptr),
+            height(0) {}
+      
       // Pointer to the parent of this node. Null if this is the root node
       Node* parent;
 
@@ -88,7 +102,11 @@ template <class T> class AVLTree {
 
     // Creates a new blank node with the given value and increments size
     // accordingly
-    Node* CreateNode(const T& value, bool is_left_child, Node* parent=nullptr);
+    Node* CreateNode(const T& value, bool is_left_child=false,
+                     Node* parent=nullptr) {
+      ++size_;
+      return new Node(value, is_left_child, parent);
+    }
 
     // Finds the node with the closest value to value
     // Will always return a non-null pointer except when the tree is empty
