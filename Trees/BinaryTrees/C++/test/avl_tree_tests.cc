@@ -2,8 +2,19 @@
 
 #include <gtest/gtest.h>
 
-TEST(AVLTreeTests, TreeStartsEmpty) {
-  AVLTree<int>* tree = new AVLTree<int>();
+class AVLTreeTests : public ::testing::Test {
+  protected:
+    void SetUp() override {
+      simple_tree = new AVLTree<int>();
+    }
 
-  EXPECT_EQ(0, tree->size());
+    void TearDown() override {
+      delete simple_tree;
+    }
+
+  AVLTree<int>* simple_tree;
+};
+
+TEST_F(AVLTreeTests, TreeStartsEmpty) {
+  EXPECT_EQ(0, simple_tree->size());
 }
