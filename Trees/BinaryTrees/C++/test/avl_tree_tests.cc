@@ -44,12 +44,6 @@ TEST_F(AVLTreeTests, TreeInsertsOneElementCorrectly) {
   EXPECT_EQ(1, simple_tree->size());
 }
 
-TEST_F(AVLTreeTests, ContainsShouldCheckIfValueIsInTree) {
-  EXPECT_EQ(false, simple_tree->Contains(10));
-  simple_tree->Insert(10);
-  EXPECT_EQ(true, simple_tree->Contains(10));
-}
-
 TEST_F(AVLTreeTests, TreeShouldMaintainBalance) {
   simple_tree->Insert(5);
   EXPECT_EQ("5[* *]", PrintTree<int>(simple_tree));
@@ -74,4 +68,19 @@ TEST_F(AVLTreeTests, TreeShouldMaintainBalance) {
 
   simple_tree->Insert(17);
   EXPECT_EQ("5[3[1[* *] *] 8[7[* *] 17[15[* *] 20[* *]]]]", PrintTree<int>(simple_tree));
+}
+
+TEST_F(AVLTreeTests, ContainsShouldCheckIfValueIsInTree) {
+  EXPECT_EQ(false, simple_tree->Contains(10));
+  simple_tree->Insert(10);
+  EXPECT_EQ(true, simple_tree->Contains(10));
+
+  simple_tree->Insert(15);
+  simple_tree->Insert(30);
+  simple_tree->Insert(100);
+
+  EXPECT_EQ(true, simple_tree->Contains(30));
+  EXPECT_EQ(true, simple_tree->Contains(100));
+  EXPECT_EQ(false, simple_tree->Contains(75));
+  EXPECT_EQ(false, simple_tree->Contains(7));
 }
