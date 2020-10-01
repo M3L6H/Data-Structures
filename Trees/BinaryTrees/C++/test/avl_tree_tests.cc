@@ -59,4 +59,10 @@ TEST_F(AVLTreeTests, TreeShouldMaintainBalance) {
 
   simple_tree->Insert(15);
   EXPECT_EQ("8[5[* *] 15[* *]]", PrintTree<int>(simple_tree));
+
+  simple_tree->Insert(3);
+  EXPECT_EQ("8[5[3[* *] *] 15[* *]]", PrintTree<int>(simple_tree));
+
+  simple_tree->Insert(1);
+  EXPECT_EQ("8[3[1[* *] 5[* *]] 15[* *]]", PrintTree<int>(simple_tree));
 }
