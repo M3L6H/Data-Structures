@@ -84,3 +84,11 @@ TEST_F(AVLTreeTests, ContainsShouldCheckIfValueIsInTree) {
   EXPECT_EQ(false, simple_tree->Contains(75));
   EXPECT_EQ(false, simple_tree->Contains(7));
 }
+
+TEST_F(AVLTreeTests, ContainsUsesCustomComparison) {
+  EXPECT_EQ(false, abs_tree->Contains(-10));
+
+  abs_tree->Insert(-10);
+  EXPECT_EQ(true, abs_tree->Contains(-10));
+  EXPECT_EQ(true, abs_tree->Contains(10));
+}
