@@ -21,7 +21,6 @@ template <class T> class AVLTree {
   public:
     typedef int Comp (const T&, const T&);
 
-    // Default constructor. Does not require any parameters
     explicit AVLTree() : root_(nullptr), size_(0) {
       // Initialize default comparison function
       comp_ = [](const T& a, const T& b) {
@@ -40,7 +39,7 @@ template <class T> class AVLTree {
     // form of non-standard comparison
     // Can also be used to reverse the ordering of the tree
     // Example:
-    //    AVLTree<int>* tree = newAVLTree<int>([](const int& a, const int& b) {
+    //    AVLTree<int>* tree = new AVLTree<int>([](const int& a, const int& b) {
     //      if (b < a) {
     //        return -1;
     //      } else if (a == b) {
@@ -55,6 +54,11 @@ template <class T> class AVLTree {
     //    tree->Insert(7);
     //    tree->InOrderTraversal(); // 7 5 2
     explicit AVLTree(Comp comp) : root_(nullptr), size_(0), comp_(comp) {}
+
+    ~AVLTree() {
+      DeleteNode(root_);
+      root_ = nullptr;
+    }
 
     // Check whether the tree contains the given value
     bool Contains(const T& value) const {
@@ -149,6 +153,14 @@ template <class T> class AVLTree {
     Node* CreateNode(const T& value, Node* parent=nullptr) {
       ++size_;
       return new Node(value, parent);
+    }
+
+    // Deletes the given node and all its children
+    void DeleteNode(Node* node) {
+      if (node == nullptr) return;
+      DeleteNode(node->left);
+      DeleteNode(node->right);
+      delete node;
     }
 
     // Finds the node with the closest value to value
