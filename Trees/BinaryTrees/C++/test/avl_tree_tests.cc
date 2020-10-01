@@ -44,7 +44,7 @@ TEST_F(AVLTreeTests, TreeInsertsOneElementCorrectly) {
   EXPECT_EQ(1, simple_tree->size());
 }
 
-TEST_F(AVLTreeTests, TreeShouldMaintainBalance) {
+TEST_F(AVLTreeTests, InsertionsShouldMaintainBalance) {
   simple_tree->Insert(5);
   EXPECT_EQ("5[* *]", PrintTree<int>(simple_tree));
 
@@ -119,4 +119,53 @@ TEST_F(AVLTreeTests, PostOrderTraversalShouldGoInPostOrder) {
     EXPECT_EQ(true, abs_tree->Insert(n));
 
   EXPECT_EQ("-3 10 25 -40 30 -15", abs_tree->PostOrderTraversal());
+}
+
+TEST_F(AVLTreeTests, DeletionsShouldMaintainBalance) {
+  int nums[] = { 7, 8, 15, 5, 3, 100, 78 };
+
+  for (int n : nums)
+    EXPECT_EQ(true, simple_tree->Insert(n));
+
+  EXPECT_EQ("8[5[3[* *] 7[* *]] 78[15[* *] 100[* *]]]", PrintTree<int>(simple_tree));
+  EXPECT_EQ(7, simple_tree->size());
+
+  for (int n : nums)
+    EXPECT_EQ(true, simple_tree->Contains(n));
+
+  EXPECT_EQ(false, simple_tree->Delete(0));
+
+  EXPECT_EQ(true, simple_tree->Delete(7));
+  EXPECT_EQ(6, simple_tree->size());
+  EXPECT_EQ(false, simple_tree->Contains(7));
+  EXPECT_EQ("8[5[3[* *] *] 78[15[* *] 100[* *]]]", PrintTree<int>(simple_tree));
+
+  EXPECT_EQ(true, simple_tree->Delete(8));
+  EXPECT_EQ(5, simple_tree->size());
+  EXPECT_EQ(false, simple_tree->Contains(8));
+  EXPECT_EQ("15[5[3[* *] *] 78[* 100[* *]]]", PrintTree<int>(simple_tree));
+
+  EXPECT_EQ(true, simple_tree->Delete(78));
+  EXPECT_EQ(4, simple_tree->size());
+  EXPECT_EQ(false, simple_tree->Contains(78));
+  EXPECT_EQ("15[5[3[* *] *] 100[* *]]", PrintTree<int>(simple_tree));
+
+  EXPECT_EQ(true, simple_tree->Delete(100));
+  EXPECT_EQ(3, simple_tree->size());
+  EXPECT_EQ(false, simple_tree->Contains(100));
+  EXPECT_EQ("5[3[* *] 15[* *]]", PrintTree<int>(simple_tree));
+
+  EXPECT_EQ(true, simple_tree->Delete(3));
+  EXPECT_EQ(true, simple_tree->Delete(5));
+  EXPECT_EQ(true, simple_tree->Delete(15));
+
+  EXPECT_EQ(0, simple_tree->size());
+  EXPECT_EQ(false, simple_tree->Delete(15));
+  EXPECT_EQ("*", PrintTree<int>(simple_tree));
+
+  for (int n : nums)
+    EXPECT_EQ(true, simple_tree->Insert(n));
+
+  EXPECT_EQ("8[5[3[* *] 7[* *]] 78[15[* *] 100[* *]]]", PrintTree<int>(simple_tree));
+  EXPECT_EQ(7, simple_tree->size());
 }
