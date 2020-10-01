@@ -192,6 +192,12 @@ template <class T> class AVLTree {
 
       return std::pair<int, int>(left_height, right_height);
     }
+    
+    // Calculates the appropriate height for the node based on its children
+    int CalculateHeight(Node* node) const {
+      std::pair<int, int> heights = GetHeights(node);
+      return std::max(heights.first, heights.second) + 1;
+    }
 
     // Returns the in-order successor of the given node
     Node* InOrderSuccessor(Node* node) const {
@@ -204,17 +210,36 @@ template <class T> class AVLTree {
       return successor;
     }
 
+    // Performs post rotation cleanup
+    void RotationCleanup(Node* parent, Node* child) {
+      // Update heights
+      parent->height = CalculateHeight(parent);
+      child->height = CalculateHeight(child);
+
+      // Update grandparent pointer
+      Node* gp = parent->parent;
+
+      if (gp == nullptr) {
+        root_ = child;
+      } else {
+        if (gp->left == parent) {
+          gp->left = child;
+        } else {
+          gp->right = child;
+        }
+      }
+
+      // Update parent pointers
+      child->parent = gp;
+      parent->parent = child;
+    }
+
     // Rotates the given nodes to the right
     void RotateRight(Node* parent, Node* child) {
       parent->left = child->right;
       child->right = parent;
 
-      // Update heights
-      --parent->height;
-      ++child->height;
-
-      // Update root pointer
-      if (parent == root_) root_ = child;
+      RotationCleanup(parent, child);
     }
 
     // Rotates the given nodes to the left
@@ -222,12 +247,7 @@ template <class T> class AVLTree {
       parent->right = child->left;
       child->left = parent;
 
-      // Update heights
-      --parent->height;
-      ++child->height;
-
-      // Update root pointer
-      if (parent == root_) root_ = child;
+      RotationCleanup(parent, child);
     }
 
     // Corrects imbalances
