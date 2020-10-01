@@ -21,6 +21,8 @@ different implementations of such trees.
 
 #### AVL Trees
 
+- [C++](https://github.com/M3L6H/Data-Structures/tree/master/Trees/BinaryTrees/C%2B%2B)
+
 AVL trees are the classic balanced binary search tree. They maintain the
 following invariant:
 
@@ -107,6 +109,8 @@ B
 by rotating BC right, then rotating AB left.
 
 #### Red-Black Trees
+
+- [JavaScript](https://github.com/M3L6H/Data-Structures/blob/master/Trees/BinaryTrees/JavaScript)
 
 Red-black trees are a particular implementation of balanced binary search trees.
 They hold to the following 6 invariants:
