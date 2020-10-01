@@ -92,3 +92,13 @@ TEST_F(AVLTreeTests, ContainsUsesCustomComparison) {
   EXPECT_EQ(true, abs_tree->Contains(-10));
   EXPECT_EQ(true, abs_tree->Contains(10));
 }
+
+TEST_F(AVLTreeTests, TreeUsesCustomComparison) {
+  EXPECT_EQ(true, abs_tree->Insert(-10));
+  EXPECT_EQ(false, abs_tree->Insert(10));
+  EXPECT_EQ(true, abs_tree->Insert(5));
+  EXPECT_EQ(true, abs_tree->Insert(-30));
+  EXPECT_EQ(true, abs_tree->Insert(45));
+
+  EXPECT_EQ("-10[5[* *] -30[* 45[* *]]]", PrintTree<int>(abs_tree));
+}
