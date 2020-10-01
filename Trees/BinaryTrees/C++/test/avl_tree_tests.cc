@@ -111,3 +111,12 @@ TEST_F(AVLTreeTests, InOrderTraversalShouldGoInOrder) {
   
   EXPECT_EQ("1, 3, 5, 10, 12, 13", simple_tree->InOrderTraversal(", "));
 }
+
+TEST_F(AVLTreeTests, PostOrderTraversalShouldGoInPostOrder) {
+  int nums[] = { -15, 10, 30, -3, 25, -40 };
+
+  for (int n : nums) 
+    EXPECT_EQ(true, abs_tree->Insert(n));
+
+  EXPECT_EQ("-3 10 25 -40 30 -15", abs_tree->PostOrderTraversal());
+}
