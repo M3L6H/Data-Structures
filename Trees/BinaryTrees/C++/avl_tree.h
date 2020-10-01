@@ -311,6 +311,19 @@ template <class T> class AVLTree {
       CorrectImbalance(next_node);
     }
 
+    // Recursive pre-order traversal helper
+    // Includes options for delimiters to show tree structure and a flag for
+    // showing nulls
+    // Given tree:
+    //   6
+    //  / \
+    // 5   9
+    //    / \
+    //   7  10
+    // Calling
+    // PreOrderTraversal(std::pair<char, char>('(', ')'), true, root_);
+    // results in:
+    // 6(5(* *) 9(7(* *) 10(* *)))
     std::string PreOrderTraversal(const std::pair<char, char>& delimiter,
                                   bool show_nulls,
                                   Node* node) const {
@@ -329,6 +342,7 @@ template <class T> class AVLTree {
       return ss.str();
     }
 
+    // Recursive in-order traversal helper
     std::string InOrderTraversal(const std::string delimiter,
                                  Node* node) const {
       if (node == nullptr) return "";
@@ -346,6 +360,7 @@ template <class T> class AVLTree {
       return ss.str();
     }
 
+    // Recursive post-order traversal helper
     std::string PostOrderTraversal(const std::string delimiter,
                                  Node* node) const {
       if (node == nullptr) return "";
