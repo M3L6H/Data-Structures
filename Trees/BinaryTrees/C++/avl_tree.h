@@ -123,7 +123,9 @@ template <class T> class AVLTree {
     }
 
     // Returns the post-order traversal of the tree as a string
-    std::string PostOrderTraversal() const;
+    std::string PostOrderTraversal(std::string delimiter=" ") const {
+      return PostOrderTraversal(delimiter, root_);
+    }
 
   private:
     // Internal node struct used to maintain tree structure
@@ -340,6 +342,23 @@ template <class T> class AVLTree {
       ss << node->value;
       if (right != "") ss << delimiter;
       ss << right;
+
+      return ss.str();
+    }
+
+    std::string PostOrderTraversal(const std::string delimiter,
+                                 Node* node) const {
+      if (node == nullptr) return "";
+
+      std::string left = PostOrderTraversal(delimiter, node->left);
+      std::string right = PostOrderTraversal(delimiter, node->right);
+
+      std::stringstream ss;
+      ss << left;
+      if (left != "") ss << delimiter;
+      ss << right;
+      if (right != "") ss << delimiter;
+      ss << node->value;
 
       return ss.str();
     }
