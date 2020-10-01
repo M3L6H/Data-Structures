@@ -69,7 +69,7 @@ template <class T> class AVLTree {
 
       // It is possible that the node found by find closest is not the actual
       // value we need
-      return node->value == value;
+      return comp_(value, node->value) == 0;
     }
 
     // Insert an element into the tree
