@@ -2,6 +2,7 @@
 *.o
 cmake-build-vs/
 googletest/
+valgrind-out.txt
 
 # Node
 node_modules/
