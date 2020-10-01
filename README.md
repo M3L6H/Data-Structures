@@ -5,7 +5,8 @@ a number of idfferent languages.
 
 - [Trees](#trees)
   - [Binary Trees](#binary-trees)
-    - [Red Black Trees](#red-black-trees)
+    - [AVL Trees](#avl-trees)
+    - [Red-Black Trees](#red-black-trees)
 
 ## Trees
 
@@ -18,9 +19,96 @@ One of the most common forms of trees is the binary search tree. When balanced,
 it is useful because of its guaranteed O(log n) search time. There are many
 different implementations of such trees.
 
-#### Red Black Trees
+#### AVL Trees
 
-Red black trees are a particular implementation of balanced binary search trees.
+AVL trees are the classic balanced binary search tree. They maintain the
+following invariant:
+
+1. For any node in the tree, there is at most a difference of 1 between the
+heights of its left and right sub-trees
+
+This means that AVL trees are strictly balanced. They maintain this invariant
+through rotations.
+
+There are four kinds of rotations that can be performed.
+
+A left rotation turns
+
+```
+    C
+   /
+  B
+ /
+A
+```
+
+into
+
+```
+  B
+ / \
+A   C
+```
+
+Similarly, a right rotation turns
+
+```
+A
+ \
+  B
+   \
+    C
+```
+
+into
+
+```
+  B
+ / \
+A   C
+```
+
+Then there are two compound rotations, left-right rotations and right-left
+rotations that operate on "bent cases." These are cases where the imbalance in
+the child node is in a different direction than the imbalance in the parent.
+
+For example, a left-right rotation corrects the following case
+
+```
+  C
+ /
+A
+ \
+  B
+```
+
+by first rotating AB left to create
+
+```
+    C
+   /
+  B
+ /
+A
+```
+
+where BC is then rotated right to balance the tree.
+
+Similarly, a right-left rotation corrects the following case
+
+```
+A
+ \
+  C
+ /
+B
+```
+
+by rotating BC right, then rotating AB left.
+
+#### Red-Black Trees
+
+Red-black trees are a particular implementation of balanced binary search trees.
 They hold to the following 6 invariants:
 
 1. Every node is either red or black
@@ -30,7 +118,13 @@ They hold to the following 6 invariants:
 5. Between any leaf node at the root, there are the same number of black nodes
 6. Null nodes (i.e. leaf nodes) are considered black
 
-The way red black trees preserve these invariants is by applying two kinds of
+Because they have a looser set of balance constraints than AVL trees, on average
+lookup in an AVL tree will be faster. However, red-black Trees do still
+guarantee O(log n) lookup. Additionally, insertion and deletion in a red-black
+tree is faster on average than in an AVL tree, because of the looser set of
+constraints.
+
+The way red black trees preserve their invariants is by applying two kinds of
 transformations based on the situation:
 
 1. Rotation (As in an AVL tree)
