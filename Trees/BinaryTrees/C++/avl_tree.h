@@ -57,7 +57,6 @@ template <class T> class AVLTree {
 
     ~AVLTree() {
       DeleteNode(root_);
-      root_ = nullptr;
     }
 
     // Check whether the tree contains the given value
@@ -99,7 +98,29 @@ template <class T> class AVLTree {
     // Delete an element from the tree
     // Returns true if the deletion was successful (i.e. the tree contained the
     // given value)
-    bool Delete(const T& value);
+    bool Delete(const T& value) {
+      Node* node = FindClosest(value);
+
+      // If find closest returned null, the tree is empty
+      if (node == nullptr || comp_(value, node->value) != 0) return false;
+
+      Node* parent = node->parent;
+
+      // When deleting nodes with children, we instead replace their value with
+      // that of their in-order successor then delete that
+      if (node->left != nullptr || node->right != nullptr) {
+        Node* successor = InOrderSuccessor(node);
+        node->value = successor->value;
+        parent = successor->parent;
+        node = successor;
+      }
+
+      DeleteNode(node);
+
+      CorrectImbalance(parent);
+
+      return true;
+    }
 
     // Returns the number of elements currently in the tree
     inline int size() const {
@@ -165,6 +186,21 @@ template <class T> class AVLTree {
       if (node == nullptr) return;
       DeleteNode(node->left);
       DeleteNode(node->right);
+
+      // Update parent
+      Node* parent = node->parent;
+
+      if (parent != nullptr) {
+        if (parent->left == node) {
+          parent->left = nullptr;
+        } else {
+          parent->right = nullptr;
+        }
+      } else {
+        root_ = nullptr;
+      }
+      
+      --size_;
       delete node;
     }
 
@@ -211,9 +247,9 @@ template <class T> class AVLTree {
     }
     
     // Calculates the appropriate height for the node based on its children
-    int CalculateHeight(Node* node) const {
+    void ReCalculateHeight(Node* node) const {
       std::pair<int, int> heights = GetHeights(node);
-      return std::max(heights.first, heights.second) + 1;
+      node->height = std::max(heights.first, heights.second) + 1;
     }
 
     // Returns the in-order successor of the given node
@@ -230,8 +266,8 @@ template <class T> class AVLTree {
     // Performs post rotation cleanup
     void RotationCleanup(Node* parent, Node* child) {
       // Update heights
-      parent->height = CalculateHeight(parent);
-      child->height = CalculateHeight(child);
+      ReCalculateHeight(parent);
+      ReCalculateHeight(child);
 
       // Update grandparent pointer
       Node* gp = parent->parent;
@@ -274,7 +310,7 @@ template <class T> class AVLTree {
       
       // Update node height
       std::pair<int, int> heights = GetHeights(node);
-      node->height = std::max(heights.first, heights.second) + 1;
+      ReCalculateHeight(node);
 
       // The next node to correct. Is not necessary the current node's parent if
       // we end up performing rotations
