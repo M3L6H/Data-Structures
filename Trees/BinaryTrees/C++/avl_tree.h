@@ -93,6 +93,7 @@ template <class T> class AVLTree {
       }
 
       CorrectImbalance(parent);
+      return true;
     }
 
     // Delete an element from the tree
