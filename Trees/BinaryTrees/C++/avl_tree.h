@@ -290,6 +290,7 @@ template <class T> class AVLTree {
     // Rotates the given nodes to the right
     void RotateRight(Node* parent, Node* child) {
       parent->left = child->right;
+      if (child->right != nullptr) child->right->parent = parent;
       child->right = parent;
 
       RotationCleanup(parent, child);
@@ -298,6 +299,7 @@ template <class T> class AVLTree {
     // Rotates the given nodes to the left
     void RotateLeft(Node* parent, Node* child) {
       parent->right = child->left;
+      if (child->left != nullptr) child->left->parent = parent;
       child->left = parent;
 
       RotationCleanup(parent, child);
