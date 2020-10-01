@@ -118,7 +118,9 @@ template <class T> class AVLTree {
     }
 
     // Returns the in-order traversal of the tree as a string
-    std::string InOrderTraversal() const;
+    std::string InOrderTraversal(std::string delimiter=" ") const {
+      return InOrderTraversal(delimiter, root_);
+    }
 
     // Returns the post-order traversal of the tree as a string
     std::string PostOrderTraversal() const;
@@ -321,6 +323,23 @@ template <class T> class AVLTree {
       ss << (left != "" ? " " : "");
       ss << right;
       ss << delimiter.second;
+
+      return ss.str();
+    }
+
+    std::string InOrderTraversal(const std::string delimiter,
+                                 Node* node) const {
+      if (node == nullptr) return "";
+
+      std::string left = InOrderTraversal(delimiter, node->left);
+      std::string right = InOrderTraversal(delimiter, node->right);
+
+      std::stringstream ss;
+      ss << left;
+      if (left != "") ss << delimiter;
+      ss << node->value;
+      if (right != "") ss << delimiter;
+      ss << right;
 
       return ss.str();
     }
