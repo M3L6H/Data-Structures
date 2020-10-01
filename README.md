@@ -1,7 +1,7 @@
 <h1 align="center">Data Structures</h1>
 
 This is a repository containing my implementations of various data structures in
-a number of idfferent languages.
+a number of dfferent languages.
 
 - [Trees](#trees)
   - [Binary Trees](#binary-trees)
