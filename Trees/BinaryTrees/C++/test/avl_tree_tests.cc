@@ -102,3 +102,12 @@ TEST_F(AVLTreeTests, TreeUsesCustomComparison) {
 
   EXPECT_EQ("-10[5[* *] -30[* 45[* *]]]", PrintTree<int>(abs_tree));
 }
+
+TEST_F(AVLTreeTests, InOrderTraversalShouldGoInOrder) {
+  int nums[] = { 1, 3, 5, 10, 12, 13 };
+
+  for (int n : nums)
+    EXPECT_EQ(true, simple_tree->Insert(n));
+  
+  EXPECT_EQ("1, 3, 5, 10, 12, 13", simple_tree->InOrderTraversal(", "));
+}
