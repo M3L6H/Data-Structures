@@ -6,9 +6,13 @@ class RadixTree:
     idx = 0
 
     for ch in a:
-      if not (ch == b[0])  :
+      if idx >= 0 and idx < len(b) and ch != b[idx]:
         return idx
-
-      idx += 1
+      elif idx == len(b):
+        idx = -1
+      elif idx < 0:
+        idx -= 1
+      else:
+        idx += 1
 
     return idx
