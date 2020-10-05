@@ -13,6 +13,7 @@ class TestRadixTree(TestCase):
     self.assertEqual(5, self.radix_tree.is_prefix("cards", "cards"))
     self.assertEqual(-1, self.radix_tree.is_prefix("cards", "card"))
     self.assertEqual(-5, self.radix_tree.is_prefix("cardistry", "card"))
+    self.assertEqual(0, self.radix_tree.is_prefix("", "blah"))
 
 
 if __name__ == "__main__":
