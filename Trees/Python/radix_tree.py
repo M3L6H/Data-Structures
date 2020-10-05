@@ -1,6 +1,6 @@
 class RadixTree:
   def __initialize__(self):
-    root = None
+    self.root = Node(False)
 
   def is_prefix(self, a, b):
     idx = 0
@@ -16,3 +16,13 @@ class RadixTree:
         idx += 1
 
     return idx
+
+  class Node:
+    def __initialize__(self, leaf=True):
+      self.leaf = leaf
+      self.edges = []
+
+  class Edge:
+    def __initialize__(self, prefix, node):
+      self.prefix = prefix
+      self.node = node
