@@ -37,7 +37,7 @@ class RadixTree:
           else:
             # So we split the edge at the trouble point, inserting the new
             # value in the process
-            edge.split(pref, value[(curr_index + pref - 1):])
+            edge.split(pref, value[(curr_index + pref):])
             return True
         # If pref is negative, it means there was an over-match. In other words
         # the value we are trying to insert is itself a prefix of edge.value
