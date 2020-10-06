@@ -1,5 +1,5 @@
 class RadixTree:
-  def __initialize__(self):
+  def __init__(self):
     self.root = self.Node(False)
 
   def insert(self, value):
@@ -89,7 +89,7 @@ class RadixTree:
     return idx
 
   class Node:
-    def __initialize__(self, leaf=True):
+    def __init__(self, leaf=True):
       self.leaf = leaf
       self.edges = []
 
@@ -100,7 +100,7 @@ class RadixTree:
       self.leaf = value
 
   class Edge:
-    def __initialize__(self, value, node):
+    def __init__(self, value, node):
       self.value = value
       self.node = node
 
