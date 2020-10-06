@@ -16,6 +16,8 @@ class TestRadixTree(TestCase):
     self.assertEqual(0, self.radix_tree.is_prefix("", "blah"))
 
   def test_insert(self):
+    self.assertFalse(self.radix_tree.insert(""))
+    
     # O --poem-> O
     self.assertTrue(self.radix_tree.insert("poem"))
     self.assertFalse(self.radix_tree.insert("poem"))

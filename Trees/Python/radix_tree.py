@@ -13,17 +13,12 @@ class RadixTree:
 
     # As long as we have not reached the end of our value, continue
     while curr_index < len(value):
+      # We are at a leaf but have more to add, so we "extend" the leaf with
+      # a blank edge and break the loop to insert the remainder
       if curr_node.leaf:
-        # We are at a leaf and have reached the end of our value, so it is
-        # already in the tree
-        if curr_index == len(value):
-          return False
-        # We are at a leaf but have more to add, so we "extend" the leaf with
-        # a blank edge and break the loop to insert the remainder
-        else:
-          curr_node.set_leaf(False)
-          curr_node.add_edge(self.Edge("", self.Node()))
-          break
+        curr_node.set_leaf(False)
+        curr_node.add_edge(self.Edge("", self.Node()))
+        break
 
       # Track whether our current index changed
       # i.e. whether we found a matching prefix
@@ -67,6 +62,10 @@ class RadixTree:
       # edge
       if change == 0:
         break
+
+    # The value is already in the tree
+    if curr_node.leaf:
+      return False
 
     # Insert a new edge with any remaining characters in our value
     curr_node.add_edge(self.Edge(value[curr_index:], self.Node()))
