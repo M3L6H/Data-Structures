@@ -13,13 +13,6 @@ class RadixTree:
 
     # As long as we have not reached the end of our value, continue
     while curr_index < len(value):
-      # We are at a leaf but have more to add, so we "extend" the leaf with
-      # a blank edge and break the loop to insert the remainder
-      if curr_node.leaf:
-        curr_node.set_leaf(False)
-        curr_node.add_edge(self.Edge("", self.Node()))
-        break
-
       # Track whether our current index changed
       # i.e. whether we found a matching prefix
       change = 0
@@ -32,7 +25,7 @@ class RadixTree:
         # Prefix greater than 0 means there was a match up to pref
         if pref > 0:
           # If pref is as long as edge.value, it means that edge.value was a
-          # prefect prefix (i.e. it fit completely)
+          # perfect prefix (i.e. it fit completely)
           if pref == len(edge.value):          
             # So we update our flag and current node and break out of this
             # inner loop, since there can be at most one matching prefix
@@ -64,7 +57,7 @@ class RadixTree:
         break
 
     # The value is already in the tree
-    if curr_node.leaf:
+    if curr_node.leaf and curr_index == len(value):
       return False
 
     # Insert a new edge with any remaining characters in our value
@@ -108,12 +101,12 @@ class RadixTree:
         raise IndexError(f"Index { index } is out of bounds of 1-{ len(self.value) }")
 
       # Create new edges
-      next_edge = Edge(self.value[index:], self.node)
-      leaf_node = Node()
-      branch_edge = Edge(new_prefix, leaf_node)
+      next_edge = RadixTree.Edge(self.value[index:], self.node)
+      leaf_node = RadixTree.Node()
+      branch_edge = RadixTree.Edge(new_prefix, leaf_node)
 
       # Create branch node
-      branch_node = Node(False)
+      branch_node = RadixTree.Node(False)
       branch_node.add_edge(next_edge)
       branch_node.add_edge(branch_edge)
 
