@@ -70,9 +70,13 @@ class RadixTree:
     return True
 
   def contains(self, value):
-    if len(value) == 0:
-      return False
+    return self.find_helper(value) != None
 
+  def find_helper(self, value):
+    if len(value) == 0:
+      return None
+
+    parent = None
     curr_node = self.root
     curr_index = 0
 
@@ -85,19 +89,22 @@ class RadixTree:
         if pref > 0:
           if pref == len(edge.value):
             change = pref
+            parent = curr_node
             curr_node = edge.node
           else:
-            return False
+            return None
         elif pref < 0:
-          return False
+          return None
 
       curr_index += change
 
       if change == 0:
         break
 
-    return curr_node.leaf and curr_index == len(value)
-        
+    if curr_node.leaf and curr_index == len(value):
+      return (parent, curr_node)
+    else:
+      return None
 
   def is_prefix(self, a, b):
     idx = 0
