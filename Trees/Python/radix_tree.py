@@ -103,12 +103,16 @@ class RadixTree:
       # Create new edges
       next_edge = RadixTree.Edge(self.value[index:], self.node)
       leaf_node = RadixTree.Node()
-      branch_edge = RadixTree.Edge(new_prefix, leaf_node)
 
       # Create branch node
       branch_node = RadixTree.Node(False)
       branch_node.add_edge(next_edge)
-      branch_node.add_edge(branch_edge)
+
+      if len(new_prefix) > 0:
+        branch_edge = RadixTree.Edge(new_prefix, leaf_node)
+        branch_node.add_edge(branch_edge)
+      else:
+        branch_node.set_leaf(True)
 
       # Update current edge
       self.value = self.value[0:index]
