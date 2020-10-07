@@ -95,6 +95,23 @@ class TestRadixTree(TestCase):
     self.assertTrue(self.radix_tree.contains("bearing"))
     self.assertTrue(self.radix_tree.contains("bear"))
 
+  def test_delete(self):
+    self.assertFalse(self.radix_tree.delete("long"))
+    self.radix_tree.insert("long")
+    self.assertTrue(self.radix_tree.contains("long"))
+    self.assertTrue(self.radix_tree.delete("long"))
+    self.assertFalse(self.radix_tree.delete("long"))
+    self.assertFalse(self.radix_tree.contains("long"))
+
+    self.radix_tree.insert("long")
+    self.radix_tree.insert("longest")
+    self.assertTrue(self.radix_tree.contains("long"))
+    self.assertTrue(self.radix_tree.contains("longest"))
+    self.assertTrue(self.radix_tree.delete("long"))
+    self.assertFalse(self.radix_tree.delete("long"))
+    self.assertFalse(self.radix_tree.contains("long"))
+    self.assertTrue(self.radix_tree.contains("longest"))
+
 
 if __name__ == "__main__":
   unittest.main()
