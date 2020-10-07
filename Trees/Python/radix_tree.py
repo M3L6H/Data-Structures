@@ -72,6 +72,26 @@ class RadixTree:
   def contains(self, value):
     return self.find_helper(value) != None
 
+  def delete(self, value):
+    res = self.find_helper(value)
+
+    if res == None:
+      return False
+
+    parent, node = res
+
+    node.set_leaf(False)
+
+    if len(node.edges) == 0:
+      if parent == None:
+        return False
+      else:
+        parent.delete_child(node)
+    elif len(node.edges) == 1:
+      parent.get_edge(node).join(node.edges[0])
+
+    return True
+
   def find_helper(self, value):
     if len(value) == 0:
       return None
@@ -132,10 +152,29 @@ class RadixTree:
     def set_leaf(self, value):
       self.leaf = value
 
+    def delete_child(self, node):
+      for i in range(len(self.edges)):
+        if self.edges[i].node == node:
+          del self.edges[i]
+          return True
+
+      return False
+
+    def get_edge(self, node):
+      for edge in self.edges:
+        if edge.node == node:
+          return edge
+
+      return None
+
   class Edge:
     def __init__(self, value, node):
       self.value = value
       self.node = node
+
+    def join(self, other):
+      self.value += other.value
+      self.node = other.node
 
     def split(self, index, new_prefix=""):
       if index >= len(self.value) or index == 0:
