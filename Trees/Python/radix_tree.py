@@ -53,21 +53,26 @@ class RadixTree:
       # If we did not change at all, it means that no matching prefix was found
       # in the last iteration of this loop, so we should break and insert a new
       # edge
-      if change == 0:
+      if change == 0 or curr_index == len(value):
         break
 
     # The value is already in the tree
-    if curr_node.leaf and curr_index == len(value):
-      return False
+    if curr_index == len(value):
+      if curr_node.leaf:
+        return False
+      else:
+        curr_node.set_leaf(True)
+    else:
+      # Insert a new edge with any remaining characters in our value
+      curr_node.add_edge(self.Edge(value[curr_index:], self.Node()))
 
-    # Insert a new edge with any remaining characters in our value
-    curr_node.add_edge(self.Edge(value[curr_index:], self.Node()))
+
     return True
 
   def contains(self, value):
     if len(value) == 0:
       return False
-      
+
     curr_node = self.root
     curr_index = 0
 
