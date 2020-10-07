@@ -64,6 +64,35 @@ class RadixTree:
     curr_node.add_edge(self.Edge(value[curr_index:], self.Node()))
     return True
 
+  def contains(self, value):
+    if len(value) == 0:
+      return False
+      
+    curr_node = self.root
+    curr_index = 0
+
+    while curr_index < len(value):
+      change = 0
+
+      for edge in curr_node.edges:
+        pref = self.is_prefix(edge.value, value[curr_index:])
+
+        if pref > 0:
+          if pref == len(edge.value):
+            change = pref
+            curr_node = edge.node
+          else:
+            return False
+        elif pref < 0:
+          return False
+
+      curr_index += change
+
+      if change == 0:
+        break
+
+    return curr_node.leaf and curr_index == len(value)
+        
 
   def is_prefix(self, a, b):
     idx = 0

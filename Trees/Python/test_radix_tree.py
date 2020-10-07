@@ -72,6 +72,29 @@ class TestRadixTree(TestCase):
     self.assertFalse(self.radix_tree.insert("adventure"))
     self.assertFalse(self.radix_tree.insert("advent"))
 
+  def test_contains(self):
+    self.assertFalse(self.radix_tree.contains("bear"))
+    self.radix_tree.insert("bear")
+    self.assertTrue(self.radix_tree.contains("bear"))
+
+    self.assertFalse(self.radix_tree.contains("bearing"))
+    self.radix_tree.insert("bearing")
+    self.assertTrue(self.radix_tree.contains("bearing"))
+    self.assertTrue(self.radix_tree.contains("bear"))
+
+    self.assertFalse(self.radix_tree.contains("bee"))
+    self.radix_tree.insert("bee")
+    self.assertTrue(self.radix_tree.contains("bee"))
+    self.assertTrue(self.radix_tree.contains("bearing"))
+    self.assertTrue(self.radix_tree.contains("bear"))
+
+    self.assertFalse(self.radix_tree.contains("be"))
+    self.radix_tree.insert("be")
+    self.assertTrue(self.radix_tree.contains("be"))
+    self.assertTrue(self.radix_tree.contains("bee"))
+    self.assertTrue(self.radix_tree.contains("bearing"))
+    self.assertTrue(self.radix_tree.contains("bear"))
+
 
 if __name__ == "__main__":
   unittest.main()
