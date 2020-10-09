@@ -103,14 +103,32 @@ class TestRadixTree(TestCase):
     self.assertFalse(self.radix_tree.delete("long"))
     self.assertFalse(self.radix_tree.contains("long"))
 
-    self.radix_tree.insert("long")
     self.radix_tree.insert("longest")
+    self.radix_tree.insert("long")
     self.assertTrue(self.radix_tree.contains("long"))
     self.assertTrue(self.radix_tree.contains("longest"))
     self.assertTrue(self.radix_tree.delete("long"))
     self.assertFalse(self.radix_tree.delete("long"))
     self.assertFalse(self.radix_tree.contains("long"))
     self.assertTrue(self.radix_tree.contains("longest"))
+
+    self.radix_tree.insert("not")
+    self.radix_tree.insert("note")
+    self.radix_tree.insert("notable")
+    self.assertTrue(self.radix_tree.contains("not"))
+    self.assertTrue(self.radix_tree.contains("note"))
+    self.assertTrue(self.radix_tree.contains("notable"))
+    self.assertTrue(self.radix_tree.delete("not"))
+    self.assertFalse(self.radix_tree.delete("not"))
+    self.assertFalse(self.radix_tree.contains("not"))
+    self.assertTrue(self.radix_tree.contains("note"))
+    self.assertTrue(self.radix_tree.contains("notable"))
+
+    self.assertTrue(self.radix_tree.delete("note"))
+    self.assertFalse(self.radix_tree.delete("note"))
+    self.assertFalse(self.radix_tree.contains("note"))
+    self.assertFalse(self.radix_tree.contains("not"))
+    self.assertTrue(self.radix_tree.contains("notable"))
 
 
 if __name__ == "__main__":
