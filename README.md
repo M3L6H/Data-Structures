@@ -7,6 +7,7 @@ a number of dfferent languages.
   - [Binary Trees](#binary-trees)
     - [AVL Trees](#avl-trees)
     - [Red-Black Trees](#red-black-trees)
+  - [Radix Tree](#radix-tree)
 
 ## Trees
 
@@ -251,3 +252,76 @@ B   B (newly inserted node)
    / \
   R   R
 ```
+
+### Radix Tree
+
+- [Python](https://github.com/M3L6H/Data-Structures/blob/master/Trees/Python/radix_tree.py)
+
+A radix tree is a modified version of a regular trie. A typical trie designed
+for storing string information results in a node for each character in the
+string. This creates redundant information. For example, inserting
+"abracadabra" into a trie results in the creation of 11 nodes. In a radix tree,
+rather than storing such information in the nodes, edges instead hold the
+string values. This means that inserting "abracadabra" into a radix tree
+results in two nodes with an edge between them holding the value "abracadabra".
+
+There are several possible cases when inserting in a radix tree. The simple
+case occurs when the tree is empty, or when the string being inserted has a
+completely unrelated prefix.
+
+A more advanced case is when the full prefix already exists as an edge or series
+of edges in the tree. For example, suppose "a" and "app" have been inserted into
+the tree. The structure will then be something like the following:
+
+```
+ o
+ | "a"
+ O
+ | "pp"
+ O
+```
+
+Note the use of "O" to signify nodes that terminate a string. When inserting
+"apple," the tree finds that "a" and "pp" already exists in the tree, so it
+appends to it "le".
+
+A more complicated case is when the word to be inserted is a prefix of an
+already existing tree. Suppose that a tree contains the word "harmony". We now
+want to insert the word "harm". The following would be incorrect:
+
+```
+        o
+ "harm" |\ "harmony"
+        O O
+```
+
+since there is a common prefix between the two edges. But "harmony" already
+exists as a complete edge, so it must be split at the point of the common
+prefix, resulting in:
+
+```
+ o
+ | "harm"
+ O
+ | "ony"
+ O
+```
+
+Finally, there is a case where the string to be inserted shares a common prefix
+with an edge that is not the entirety of the edge. An example being the edge
+"card". Suppose we then want to insert "cab". Both these strings have the prefix
+"ca", so we split the edge at that point, resulting in a common ancestor of "ca"
+and descendents "rd" and "b".
+
+Lookup is a simple traversal of the tree, matching prefixes until either a
+mismatch is found, or the final node is not marked as a word.
+
+Deletion is a little more sophisticated but fundamentally quite simple. First a
+lookup is performed. If the node exists, there is nothing more to do. If it does
+exist, it must first be marked as not a word. Then there are three cases
+depending on the number of its children.
+
+If the node has no children, it can be safely removed from the tree. If it has
+one child, the node's edge should be joined with its parent edge, removing the
+redundant node itself in the process. Lastly, if it has two or more children,
+nothing more should be done to the node at that time.
