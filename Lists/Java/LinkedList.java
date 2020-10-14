@@ -2,9 +2,11 @@
 
 public class LinkedList<T> {
   private Node<T> root;
+  private int size;
   
   public LinkedList() {
     this.root = null;
+    this.size = 0;
   }
 
   public void append(T value) {
@@ -13,6 +15,12 @@ public class LinkedList<T> {
     } else {
       this.appendRec(value, this.root);
     }
+
+    this.size += 1;
+  }
+
+  public int size() {
+    return this.size;
   }
 
   private void appendRec(T value, Node<T> node) {
