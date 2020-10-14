@@ -23,6 +23,20 @@ public class LinkedList<T> {
     return this.size;
   }
 
+  public T get(int index) {
+    if (index >= this.size) {
+      return null;
+    }
+
+    Node<T> node = this.root;
+
+    for (int i = 0; i < index; i++) {
+      node = node.next;
+    }
+
+    return node.value;
+  }
+
   private void appendRec(T value, Node<T> node) {
     if (node.next == null) {
       node.next = new Node<T>(value);
