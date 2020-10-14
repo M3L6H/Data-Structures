@@ -9,6 +9,10 @@ public class LinkedList<T> {
     this.size = 0;
   }
 
+  public int size() {
+    return this.size;
+  }
+
   public void append(T value) {
     if (root == null) {
       this.root = new Node<T>(value);
@@ -19,22 +23,42 @@ public class LinkedList<T> {
     this.size += 1;
   }
 
-  public int size() {
-    return this.size;
-  }
-
   public T get(int index) {
     if (index >= this.size) {
       return null;
     }
 
+    return this.findNode(index)[1].value;
+  }
+
+  public void delete(int index) {
+    if (index >= this.size) {
+      return;
+    }
+    
+    Node<T>[] nodes = this.findNode(index);
+    Node<T> prev = nodes[0];
+    Node<T> node = nodes[1];
+
+    if (prev == null) {
+      this.root = node.next;
+    } else {
+      prev.next = node.next;
+    }
+
+    node.next = null;
+  }
+
+  private Node<T>[] findNode(int index) {
     Node<T> node = this.root;
+    Node<T> prev = null;
 
     for (int i = 0; i < index; i++) {
+      prev = node;
       node = node.next;
     }
 
-    return node.value;
+    return { prev, node };
   }
 
   private void appendRec(T value, Node<T> node) {
