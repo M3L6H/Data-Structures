@@ -1,5 +1,6 @@
-// Singly-linked list implementation in Java
+import java.util.*;
 
+// Singly-linked list implementation in Java
 public class LinkedList<T> {
   private ListNode<T> root;
   private int size;
@@ -28,7 +29,7 @@ public class LinkedList<T> {
       return null;
     }
 
-    return this.findNode(index)[1].value();
+    return this.findNode(index).get(1).value();
   }
 
   public void delete(int index) {
@@ -36,9 +37,9 @@ public class LinkedList<T> {
       return;
     }
     
-    ListNode<T>[] nodes = this.findNode(index);
-    ListNode<T> prev = nodes[0];
-    ListNode<T> node = nodes[1];
+    ArrayList<ListNode<T>> nodes = this.findNode(index);
+    ListNode<T> prev = nodes.get(0);
+    ListNode<T> node = nodes.get(1);
 
     if (prev == null) {
       this.root = node.next;
@@ -49,7 +50,7 @@ public class LinkedList<T> {
     node.next = null;
   }
 
-  private ListNode<T>[] findNode(int index) {
+  private ArrayList<ListNode<T>> findNode(int index) {
     ListNode<T> node = this.root;
     ListNode<T> prev = null;
 
@@ -58,7 +59,12 @@ public class LinkedList<T> {
       node = node.next;
     }
 
-    return new ListNode<T>[] { prev, node };
+    ArrayList<ListNode<T>> nodes = new ArrayList<ListNode<T>>();
+
+    nodes.add(prev);
+    nodes.add(node);
+
+    return  nodes;
   }
 
   private void appendRec(T value, ListNode<T> node) {
