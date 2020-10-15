@@ -1,7 +1,7 @@
 // Singly-linked list implementation in Java
 
 public class LinkedList<T> {
-  private Node<T> root;
+  private ListNode<T> root;
   private int size;
   
   public LinkedList() {
@@ -15,7 +15,7 @@ public class LinkedList<T> {
 
   public void append(T value) {
     if (root == null) {
-      this.root = new Node<T>(value);
+      this.root = new ListNode<T>(value);
     } else {
       this.appendRec(value, this.root);
     }
@@ -28,7 +28,7 @@ public class LinkedList<T> {
       return null;
     }
 
-    return this.findNode(index)[1].value;
+    return this.findNode(index)[1].value();
   }
 
   public void delete(int index) {
@@ -36,9 +36,9 @@ public class LinkedList<T> {
       return;
     }
     
-    Node<T>[] nodes = this.findNode(index);
-    Node<T> prev = nodes[0];
-    Node<T> node = nodes[1];
+    ListNode<T>[] nodes = this.findNode(index);
+    ListNode<T> prev = nodes[0];
+    ListNode<T> node = nodes[1];
 
     if (prev == null) {
       this.root = node.next;
@@ -49,33 +49,37 @@ public class LinkedList<T> {
     node.next = null;
   }
 
-  private Node<T>[] findNode(int index) {
-    Node<T> node = this.root;
-    Node<T> prev = null;
+  private ListNode<T>[] findNode(int index) {
+    ListNode<T> node = this.root;
+    ListNode<T> prev = null;
 
     for (int i = 0; i < index; i++) {
       prev = node;
       node = node.next;
     }
 
-    return { prev, node };
+    return new ListNode<T>[] { prev, node };
   }
 
-  private void appendRec(T value, Node<T> node) {
+  private void appendRec(T value, ListNode<T> node) {
     if (node.next == null) {
-      node.next = new Node<T>(value);
+      node.next = new ListNode<T>(value);
     } else {
       this.appendRec(value, node.next);
     }
   }
+}
 
-  class Node<T> {
-    private T value;
-    public Node<T> next;
-    
-    public Node(T value) {
-      this.value = value;
-      this.next = null;
-    }
+class ListNode<T> {
+  private T value;
+  public ListNode<T> next;
+  
+  public ListNode(T value) {
+    this.value = value;
+    this.next = null;
+  }
+
+  public T value() {
+    return value;
   }
 }
