@@ -66,6 +66,9 @@ public class LinkedList<T> {
 
     // Not strictly necessary, but good practice
     node.next = null;
+
+    // Decrement our size
+    this.size -= 1;
   }
 
   // Retrieves the node at the given index and its parent
