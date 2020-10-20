@@ -3,16 +3,55 @@
 This is a repository containing my implementations of various data structures in
 a number of dfferent languages.
 
+- [Lists](#lists)
+  - [Linked Lists](#linked-lists)
 - [Trees](#trees)
   - [Binary Trees](#binary-trees)
     - [AVL Trees](#avl-trees)
     - [Red-Black Trees](#red-black-trees)
   - [Radix Tree](#radix-tree)
 
+## Lists
+
+As one of the most basic data structures, lists are handy when a little more
+functionality is needed over a primitive array.
+
+### Linked Lists
+
+- [Java](https://github.com/M3L6H/Data-Structures/blob/master/Lists/Java/linked-list/src/main/java/io/michaelhollingworth/LinkedList.java)
+
+Linked lists are one of the simplest forms of lists. They are comprised of
+individual nodes, each with a next pointer. The root node is stored by the data
+structure, and the end of the list is denoted by a node whose next pointer is
+null.
+
+Appending to the list is as simple as traversing from the root pointer
+until the end is found, at which point a new node can be added with the value to
+be appended.
+
+Likewise, lookup at a particular index involves traversing the list until the
+given index is reached.
+
+Deletion is also relatively simplistic. When the node to be deleted has been
+located, the next pointer in its parent node is then reassigned to the node's
+next pointer. This effectively cuts the node out of the list. In a language like
+C++ where memory management is manual, the node can then be deleted.
+
+Benefits of linked lists are that they are dynamic and can be declared without a
+size at runtime. If a pointer to the end of the list is maintained, appending
+can be done in O(1) time. Prepending can also happen in constant time. Likewise,
+shifting and popping can happen in O(1), the latter also depending on a pointer
+to the end of the list. This means that a LinkedList can be used to implement a
+queue or a stack.
+
+The downside to a linked list when compared to an array is that lookup at index
+i happpens in O(n) time.
+
 ## Trees
 
-Trees are a very common data structure in programming, useful for modeling many
-things.
+Trees are a very common data structure in programming, useful for modeling
+hierarchical data. They are frequently used for optimized search algorithms
+among other things.
 
 ### Binary Trees
 
