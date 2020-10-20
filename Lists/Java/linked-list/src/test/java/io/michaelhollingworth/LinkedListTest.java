@@ -49,4 +49,45 @@ public class LinkedListTest {
     assertEquals(null, list.get(-1));
     assertEquals(null, list.get(1000));
   }
+
+  @Test
+  void testDelete() {
+    LinkedList<String> list = new LinkedList<String>();
+
+    String[] strings = new String[] { "cat", "dog", "camel", "horse" };
+
+    for (String str: strings) {
+      list.append(str);
+    }
+
+    // Test starting case
+    assertEquals(strings.length, list.size());
+
+    list.delete(2);
+
+    // Test after deletion
+    assertEquals(strings.length - 1, list.size());
+    assertEquals(strings[3], list.get(2));
+
+    // Test bogus deletion
+    list.delete(3);
+    assertEquals(strings.length - 1, list.size());
+
+    // Clear out the list
+    for (int i = 0; i < strings.length - 1; i++) {
+      list.delete(0);
+    }
+
+    assertEquals(0, list.size());
+    assertEquals(null, list.get(0));
+
+    // Ensure that repopulation works correctly
+    list.append("cow");
+    list.append("mongoose");
+    list.append("capybara");
+
+    assertEquals(3, list.size());
+    assertEquals("cow", list.get(0));
+    assertEquals("capybara", list.get(2));
+  }
 }
