@@ -21,5 +21,32 @@ public class LinkedListTest {
       list.append(ch);
     }
     assertEquals(26, list.size());
+
+    // Tests using .get
+    assertEquals('A', list.get(0));
+    assertEquals('Z', list.get(25));
+  }
+
+  @Test
+  void testGet() {
+    LinkedList<Integer> list = new LinkedList<Integer>();
+
+    // Empty list should return null
+    assertEquals(null, list.get(0));
+
+    // Get should return the element at the given index
+    int[] nums = new int[] { 1, 2, 3 };
+
+    for (int n: nums) {
+      list.append(n);
+    }
+
+    assertEquals(nums[0], list.get(0));
+    assertEquals(nums[1], list.get(1));
+    assertEquals(nums[2], list.get(2));
+    
+    // Test out-of-bound indices
+    assertEquals(null, list.get(-1));
+    assertEquals(null, list.get(1000));
   }
 }
