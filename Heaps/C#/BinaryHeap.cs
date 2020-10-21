@@ -3,8 +3,9 @@
 public class BinaryHeap<T> {
   public delegate int Comp(T a, T b);
 
-  public int Size => _size;
+  public bool Empty => _size == 0;
   public T Max => _size == 0 ? null : _elts[0];
+  public int Size => _size;
 
   private Comp _comp;
   private T[] _elts;
