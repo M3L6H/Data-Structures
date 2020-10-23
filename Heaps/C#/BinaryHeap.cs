@@ -1,5 +1,7 @@
 // Implemented as a max-heap (i.e. if comp returns -1 for a and b where a is the
 // parent, they will be swapped)
+// Can of course be converted into a min-heap by reversing the comparison
+// function
 public class BinaryHeap<T> {
   public delegate int Comp(T a, T b);
 
@@ -35,6 +37,26 @@ public class BinaryHeap<T> {
     _size++;
   }
 
+  // Removes the maximal item
+  public T RemoveMax()  {
+    if (Empty) {
+      return null;
+    }
+
+    T max = _elts[0];
+
+    // Decrement the size
+    _size--;
+    
+    // Move the last added element to the head of our internal array
+    _elts[0] = _elts[_size];
+    _elts[_size] = null;
+
+    BubbleDown();
+
+    return max;
+  }
+
   // Helper method to bubble up a newly inserted element
   private void BubbleUp(int index) {
     // We are bubbling up at the root so there is nothing left to do
@@ -47,13 +69,39 @@ public class BinaryHeap<T> {
 
     // Perform the comparison to see if we need to swap
     if (_comp(_elts[parent], _elts[index]) == -1) {
-      T temp = _elts[parent];
-      _elts[parent] = _elts[index];
-      _elts[index] = temp;
+      Swap(parent, index);
 
       // We just swapped, so continue bubbling up from the new position
       BubbleUp(parent);
     }
+  }
+
+  // Helper method to bubble down after removal
+  private void BubbleDown(int index = 0) {
+    if (index >= _size) {
+      return;
+    }
+
+    // Calculate the indices of our children
+    int left = index * 2 + 1;
+    int right = index * 2 + 2;
+
+    // The index of the larger child
+    int maxIndex = _comp(_elts[left], _elts[right]) == -1 ? right : left;
+
+    // Parent is smaller than the child, so swap
+    if (_comp(_elts[index], _elts[maxIndex]) == -1) {
+      Swap(index, maxIndex);
+
+      BubbleDown(maxIndex);
+    }
+  }
+
+  // Swap the elements at the two given indices
+  private void Swap(int a, int b) {
+    T temp = _elts[a];
+    _elts[a] = _elts[b];
+    _elts[b] = temp;
   }
 
   // Resize the array when we run out of size
