@@ -4,6 +4,10 @@ cmake-build-vs/
 googletest/
 valgrind-out.txt
 
+# C#
+bin/
+obj/
+
 # Maven
 target/
 
