@@ -1,0 +1,4 @@
+/home/m3l6h/DataStructures/Heaps/C#/BinaryHeap/obj/Debug/netcoreapp3.1/BinaryHeap.csprojAssemblyReference.cache
+/home/m3l6h/DataStructures/Heaps/C#/BinaryHeap/obj/Debug/netcoreapp3.1/BinaryHeap.AssemblyInfoInputs.cache
+/home/m3l6h/DataStructures/Heaps/C#/BinaryHeap/obj/Debug/netcoreapp3.1/BinaryHeap.AssemblyInfo.cs
+/home/m3l6h/DataStructures/Heaps/C#/BinaryHeap/obj/Debug/netcoreapp3.1/BinaryHeap.csproj.CoreCompileInputs.cache
