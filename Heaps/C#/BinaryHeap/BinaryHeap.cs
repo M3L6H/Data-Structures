@@ -9,6 +9,7 @@ namespace BinaryHeap {
 
     // Properties
     public bool Empty => _size == 0;
+    public T Max => _size == 0 ? default(T) : _elts[0];
     public int Size => _size;
 
     private Comp _comp;
@@ -38,18 +39,10 @@ namespace BinaryHeap {
       _size++;
     }
 
-    public T PeekMax() {
-      if (Empty) {
-        throw new BinaryHeapEmptyException("Cannot peek max when heap is empty!");
-      }
-
-      return _elts[0];
-    }
-
     // Removes the maximal item
     public T RemoveMax() {
       if (Empty) {
-        throw new BinaryHeapEmptyException("Cannot peek max when heap is empty!");
+        return default(T);
       }
 
       T max = _elts[0];
@@ -59,7 +52,7 @@ namespace BinaryHeap {
       
       // Move the last added element to the head of our internal array
       _elts[0] = _elts[_size];
-      _elts[_size] = null;
+      _elts[_size] = default(T);
 
       BubbleDown();
 
@@ -116,7 +109,7 @@ namespace BinaryHeap {
     // Resize the array when we run out of size
     private void Resize() {
       T[] temp = _elts;
-      _elts = new T[_elts.length * 2];
+      _elts = new T[_elts.Length * 2];
 
       // Copy all the elements over
       for (int i = 0; i < temp.Length; i++) {
