@@ -1,9 +1,8 @@
-using System;
 using Xunit;
 
 namespace BinaryHeap
 {
-    public class UnitTest1
+    public class BinaryHeapTest
     {
         [Fact]
         public void Test1()
