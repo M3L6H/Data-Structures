@@ -19,6 +19,21 @@ namespace BinaryHeap
 
       Assert.Equal(0, heap.Size);
       Assert.Equal(0, heap.Max);
+
+      heap.Insert(5);
+
+      Assert.Equal(1, heap.Size);
+      Assert.Equal(5, heap.Max);
+
+      heap.Insert(2);
+
+      Assert.Equal(2, heap.Size);
+      Assert.Equal(5, heap.Max);
+
+      heap.Insert(7);
+
+      Assert.Equal(3, heap.Size);
+      Assert.Equal(7, heap.Max);
     }
   }
 }
