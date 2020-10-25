@@ -1,4 +1,4 @@
-// Implemented as a max-heap (i.e. if comp returns -1 for a and b where a is the
+// Implemented as a max-heap (i.e. if comp returns 1 for a and b where a is the
 // parent, they will be swapped)
 // Can of course be converted into a min-heap by reversing the comparison
 // function
@@ -70,7 +70,7 @@ namespace BinaryHeap {
       int parent = (index - 1) / 2;
 
       // Perform the comparison to see if we need to swap
-      if (_comp(_elts[parent], _elts[index]) == -1) {
+      if (_comp(_elts[parent], _elts[index]) == 1) {
         Swap(parent, index);
 
         // We just swapped, so continue bubbling up from the new position
@@ -89,10 +89,10 @@ namespace BinaryHeap {
       int right = index * 2 + 2;
 
       // The index of the larger child
-      int maxIndex = _comp(_elts[left], _elts[right]) == -1 ? right : left;
+      int maxIndex = _comp(_elts[left], _elts[right]) == 1 ? right : left;
 
       // Parent is smaller than the child, so swap
-      if (_comp(_elts[index], _elts[maxIndex]) == -1) {
+      if (_comp(_elts[index], _elts[maxIndex]) == 1) {
         Swap(index, maxIndex);
 
         BubbleDown(maxIndex);
