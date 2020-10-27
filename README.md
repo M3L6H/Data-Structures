@@ -3,6 +3,8 @@
 This is a repository containing my implementations of various data structures in
 a number of dfferent languages.
 
+- [Heaps](#heaps)
+  - [Binary Heaps](#binary-heaps)
 - [Lists](#lists)
   - [Linked Lists](#linked-lists)
 - [Trees](#trees)
@@ -10,6 +12,41 @@ a number of dfferent languages.
     - [AVL Trees](#avl-trees)
     - [Red-Black Trees](#red-black-trees)
   - [Radix Tree](#radix-tree)
+
+## Heaps
+
+Heaps are a data structure that supports efficient insertion/removal of a max or
+min element. They are frequently used as the underlying data structure of a
+priority queue for example.
+
+### Binary Heaps
+
+- [C#](https://github.com/M3L6H/Data-Structures/blob/master/Heaps/C%23/BinaryHeap/BinaryHeapTest.cs)
+
+A binary heap is a particular implementation of a heap. This features a binary
+tree which holds to the following invariant:
+
+1. A parent node is always greater than its children (in a max-heap).
+
+This invariant means the root will always be the maximal element. This then
+supports O(1) lookup. Under the hood, an array is typically used to represent
+the binary heap. This has several advantages.
+
+Children of a node can always be calculated via the formula 2i + 1 and 2i + 2
+where i is the index of the parent. Likewise, a node's parent can easily be
+retrieved via the formula (i - 1) / 2 where i is the index of the child and
+floor division is used.
+
+The biggest advantage of using an array like this is that insertion follows the
+simple strategy of appending to the end of the array. The element is then
+compared against its parent. If its parent is null (i.e. it is the root node) or
+its parent is greater than it, nothing happens. However, if its parent is lesser
+than it, they are swapped, and the process is repeated.
+
+Similarly, max removal happens by swapping the root node with the most recently
+inserted node, then swapping that node down the tree, each time exchanging it
+with its greatest child. This process is repeated until the children of the node
+are smaller than it.
 
 ## Lists
 
