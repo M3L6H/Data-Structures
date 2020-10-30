@@ -8,6 +8,17 @@ pub struct SkipList<'a, T, F> where F: Fn(&T, &T) -> i32 {
   comp: F
 }
 
+impl<'a, T, F> SkipList<'a, T, F> where F: Fn(&T, &T) -> i32 {
+  fn new(comp: F) -> Self {
+    SkipList {
+      root_list: Vec::new(),
+      size: 0,
+      height: 0,
+      comp
+    }
+  }
+}
+
 struct Node<'a, T> {
   next_list: Vec<&'a Node<'a, T>>,
   value: &'a T
@@ -15,8 +26,23 @@ struct Node<'a, T> {
 
 #[cfg(test)]
 mod tests {
+  use super::SkipList;
+  
   #[test]
-  fn it_works() {
-    assert_eq!(2 + 2, 4);
+  fn it_constructs() {
+    let comp = |a: &i32, b: &i32| -> i32 {
+      if a < b {
+        return -1;
+      } else if a > b {
+        return 1;
+      } else {
+        return 0;
+      }
+    };
+
+    let list = SkipList::new(comp);
+    
+    assert_eq!(0, list.size);
+    assert_eq!(0, list.height);
   }
 }
