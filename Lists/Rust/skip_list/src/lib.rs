@@ -24,6 +24,15 @@ struct Node<'a, T> {
   value: &'a T
 }
 
+impl<'a, T> Node<'a, T> {
+  fn new(value: &'a T) -> Self {
+    Node {
+      next_list: Vec::new(),
+      value
+    }
+  }
+}
+
 #[cfg(test)]
 mod tests {
   use super::SkipList;
