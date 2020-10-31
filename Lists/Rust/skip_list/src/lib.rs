@@ -1,14 +1,14 @@
 //! An implementation of a skip list in Rust.
 //! Supports O(log n) insertion and search while maintaining a list-like structure.
 
-pub struct SkipList<'a, T, F> where F: Fn(&T, &T) -> i32 {
-  root_list: Vec<&'a Node<'a, &'a T>>,
+pub struct SkipList<T, F> where F: Fn(&T, &T) -> i32 {
+  root_list: Vec<Node<T>>,
   size: u32,
   height: u32,
   comp: F
 }
 
-impl<'a, T, F> SkipList<'a, T, F> where F: Fn(&T, &T) -> i32 {
+impl<T, F> SkipList<T, F> where F: Fn(&T, &T) -> i32 {
   fn new(comp: F) -> Self {
     SkipList {
       root_list: Vec::new(),
@@ -19,13 +19,13 @@ impl<'a, T, F> SkipList<'a, T, F> where F: Fn(&T, &T) -> i32 {
   }
 }
 
-struct Node<'a, T> {
-  next_list: Vec<&'a Node<'a, T>>,
-  value: &'a T
+struct Node<T> {
+  next_list: Vec<Node<T>>,
+  value: T
 }
 
-impl<'a, T> Node<'a, T> {
-  fn new(value: &'a T) -> Self {
+impl<T> Node<T> {
+  fn new(value: T) -> Self {
     Node {
       next_list: Vec::new(),
       value
