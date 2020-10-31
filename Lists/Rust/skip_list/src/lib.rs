@@ -17,6 +17,16 @@ impl<T, F> SkipList<T, F> where F: Fn(&T, &T) -> i32 {
       comp
     }
   }
+
+  fn insert(self: &mut Self, value: T) {
+    if self.size == 0 {
+      self.root_list.push(Node::new(value));
+
+      self.size += 1;
+      self.height = 1;
+      return;
+    }
+  }
 }
 
 struct Node<T> {
