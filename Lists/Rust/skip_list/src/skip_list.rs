@@ -46,4 +46,12 @@ impl<T> Node<T> {
       value
     }
   }
+
+  fn next_list(self: &Self) -> &Vec<Node<T>> {
+    &self.next_list
+  }
+
+  fn value(self: &Self) -> &T {
+    &self.value
+  }
 }
